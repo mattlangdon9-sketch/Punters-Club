@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>Punters Club 2026 🏈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:#0D1B2A;color:#fff;font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:#0D1B2A}
+
+/* HEADER */
+.header{background:#132233;padding:18px 16px 14px;text-align:center;border-bottom:3px solid #E8751A}
+.header-title{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:34px;color:#E8751A;letter-spacing:2px;line-height:1}
+.header-sub{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:14px;color:#F5A623;letter-spacing:3px;margin-top:4px}
+.header-detail{font-size:11px;color:#6B8CA8;margin-top:3px;letter-spacing:1px}
+.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:6px;vertical-align:middle}
+.sync-dot.online{background:#2ECC71}
+.sync-dot.offline{background:#E74C3C}
+.sync-dot.syncing{background:#F5A623;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* NAV */
+.nav{display:flex;background:#132233;border-bottom:1px solid #1A2E42;position:sticky;top:0;z-index:100}
+.nav-btn{flex:1;padding:11px 2px;border:none;background:transparent;color:#6B8CA8;font-size:11px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;letter-spacing:0.5px;cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.nav-btn.active{background:#E8751A;color:#0D1B2A}
+
+/* PAGE */
+.page{padding:14px 14px 90px;display:none}
+.page.active{display:block}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#132233;border:1px solid #E8751A;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* LOADING */
+.loading{text-align:center;padding:40px 20px;color:#6B8CA8;font-size:14px}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid #1A2E42;border-top-color:#E8751A;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* CARDS */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.stat-card{background:#1A2E42;border:1.5px solid #E8751A;border-radius:10px;padding:10px 12px}
+.stat-label{font-size:9px;font-weight:700;color:#6B8CA8;letter-spacing:1.5px;font-family:‘Barlow Condensed’,sans-serif;text-transform:uppercase;margin-bottom:4px}
+.stat-value{font-size:18px;font-weight:800;font-family:‘Barlow Condensed’,sans-serif;letter-spacing:0.5px;line-height:1}
+
+/* TABLE */
+.table-wrap{border-radius:10px;overflow:hidden;border:1px solid #1A2E42}
+.table-head{background:#132233;padding:8px 10px;display:grid;gap:4px}
+.table-head-cell{font-size:10px;font-weight:700;color:#F5A623;font-family:‘Barlow Condensed’,sans-serif;letter-spacing:1px;text-align:center}
+.table-row{padding:9px 10px;display:grid;gap:4px;align-items:center}
+.table-row:nth-child(even){background:#132233}
+.table-row:nth-child(odd){background:#1A2E42}
+
+/* WEEK SELECTOR */
+.week-selector{background:#132233;border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid #1A2E42}
+.week-nav{display:flex;align-items:center;gap:10px}
+.week-btn{background:#1A2E42;border:1px solid #E8751A;color:#E8751A;border-radius:8px;width:44px;height:44px;font-size:22px;cursor:pointer;font-weight:700;flex-shrink:0}
+.week-num-big{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:40px;color:#F5A623;line-height:1}
+.week-date-txt{font-size:12px;color:#6B8CA8;margin-top:2px}
+.punter-badge{display:inline-flex;align-items:center;gap:6px;background:#1A2E42;border-radius:20px;padding:5px 14px;margin-top:8px}
+
+/* INPUTS */
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.input-card{background:#132233;border-radius:10px;padding:12px;border:1px solid #1A2E42}
+.input-name{font-size:10px;font-weight:700;color:#6B8CA8;letter-spacing:1.5px;font-family:‘Barlow Condensed’,sans-serif;text-transform:uppercase;margin-bottom:6px}
+.input-wrap{position:relative}
+.input-dollar{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6B8CA8;font-size:14px;font-weight:600;pointer-events:none}
+.input-field{background:#0D2A4A;border:2px solid #E8751A;border-radius:8px;color:#fff;font-size:17px;font-family:‘Barlow’,sans-serif;font-weight:600;text-align:center;width:100%;padding:10px 6px 10px 24px;outline:none}
+.input-field:focus{border-color:#F5A623;background:#1A3A5A}
+.input-field.profit{background:#1A4A2A;border-color:#2ECC71;color:#2ECC71}
+.input-field.loss{background:#4A1A1A;border-color:#E74C3C;color:#E74C3C}
+.input-pnl{margin-top:4px;font-size:11px;font-weight:600;text-align:center;min-height:16px}
+
+/* RESULT */
+.result-box{border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;border:2px solid}
+.result-big{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:44px;line-height:1}
+.bonus-triggered{background:#1C1A00;border:2px solid #F5A623;border-radius:8px;padding:8px 12px;margin-top:8px}
+
+/* LB */
+.lb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.lb-card{border-radius:12px;padding:14px;border:2px solid}
+.mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-top:8px}
+.mini-stat{background:#1A2E42;border-radius:6px;padding:5px 4px;text-align:center}
+.mini-stat-label{font-size:8px;color:#6B8CA8;font-weight:700;letter-spacing:0.5px;font-family:‘Barlow Condensed’,sans-serif;text-transform:uppercase}
+.mini-stat-value{font-size:12px;font-weight:700;margin-top:1px}
+
+/* PROGRESS */
+.progress-wrap{background:#132233;border-radius:99px;height:10px;overflow:hidden;margin:8px 0}
+.progress-bar{background:linear-gradient(90deg,#E8751A,#F5A623);height:100%;border-radius:99px;transition:width 0.6s ease}
+
+/* BUTTONS */
+.copy-btn{background:#2ECC71;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;padding:15px 0;width:100%;cursor:pointer;letter-spacing:1px;margin-bottom:14px;transition:all 0.15s}
+.copy-btn.copied{background:#F5A623}
+.clear-btn{width:100%;padding:12px 0;background:transparent;border:1px solid #1A2E42;border-radius:10px;color:#6B8CA8;font-size:13px;cursor:pointer;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;margin-top:4px}
+.save-btn{width:100%;padding:14px 0;background:#E8751A;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;cursor:pointer;letter-spacing:1px;margin-bottom:10px;transition:opacity 0.15s}
+.save-btn:active{opacity:0.8}
+
+/* WA */
+.wa-preview{background:#0A1E0A;border:1.5px solid #2ECC71;border-radius:12px;padding:16px;font-family:monospace;font-size:13px;line-height:1.7;color:#2ECC71;white-space:pre-wrap;word-break:break-word}
+
+/* UTILS */
+.profit{color:#2ECC71!important}
+.loss{color:#E74C3C!important}
+.amber{color:#F5A623}
+.muted{color:#6B8CA8}
+.divider{height:1px;background:linear-gradient(90deg,transparent,#E8751A44,transparent);margin:14px 0}
+.section-title{font-family:‘Barlow Condensed’,sans-serif;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#E8751A;font-size:13px;margin-bottom:10px}
+.wk-badge{background:#E8751A;color:#0D1B2A;border-radius:6px;font-weight:900;font-family:‘Barlow Condensed’,sans-serif;width:32px;text-align:center;padding:3px 0;flex-shrink:0;font-size:11px}
+.tag{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+.tag-amber{background:#2A1800;color:#F5A623}
+.tag-muted{background:#132233;color:#6B8CA8}
+.tip-box{background:#1A2E42;border-radius:10px;padding:12px;margin-top:12px}
+.bonus-box{background:#1A2800;border:1.5px solid #F5A623;border-radius:10px;padding:14px}
+</style>
+
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <div class="header-title">🏈 PUNTERS CLUB</div>
+    <div class="header-sub">MAGIC ROUND · BRISBANE 2027</div>
+    <div class="header-detail">
+      APR 2026 → MAY 2027 · 56 WEEKS · $200 POOL/WK
+      <span class="sync-dot offline" id="sync-dot"></span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+
+  <div class="nav">
+    <button class="nav-btn active" id="nav-dashboard" onclick="showTab('dashboard')">📊 Dashboard</button>
+    <button class="nav-btn" id="nav-entry" onclick="showTab('entry')">📋 Entry</button>
+    <button class="nav-btn" id="nav-leaderboard" onclick="showTab('leaderboard')">🏆 Board</button>
+    <button class="nav-btn" id="nav-whatsapp" onclick="showTab('whatsapp')">📱 WA</button>
+  </div>
+
+  <!-- DASHBOARD -->
+
+  <div id="tab-dashboard" class="page active">
+    <div id="dashboard-content"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
+  </div>
+
+  <!-- ENTRY -->
+
+  <div id="tab-entry" class="page">
+    <div id="entry-content"></div>
+  </div>
+
+  <!-- LEADERBOARD -->
+
+  <div id="tab-leaderboard" class="page">
+    <div id="leaderboard-content"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
+  </div>
+
+  <!-- WHATSAPP -->
+
+  <div id="tab-whatsapp" class="page">
+    <div id="whatsapp-content"></div>
+  </div>
+
+  <!-- TOAST -->
+
+  <div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+// ── CONFIG ───────────────────────────────────────────────────────
+const SUPABASE_URL = "https://ndsbuovvckxglbgptymc.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kc2J1b3Z2Y2t4Z2xiZ3B0eW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjM4MzMsImV4cCI6MjA5MjUzOTgzM30.dQ6TW7ViK6tFIk7duSf0SENC2BvGzkGaDwgtGnzuzbY";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── CONSTANTS ────────────────────────────────────────────────────
+const PUNTERS = ["Matt","Hamish","Sean","Jamie"];
+const PCOLS   = ["matt","hamish","sean","jamie"];
+const WEEKS   = 56;
+const POOL    = 200;
+const STAKE   = 50;
+const TRIP    = 11200;
+const BONUS   = 600;
+const MEDALS  = ["🥇","🥈","🥉","☠️"];
+const START   = new Date("2026-04-06");
+
+const DATES = Array.from({length:WEEKS},(_,i)=>{
+  const d=new Date(START); d.setDate(d.getDate()+i*7);
+  return d.toLocaleDateString("en-AU",{day:"2-digit",month:"short"});
+});
+const ROTATION = Array.from({length:WEEKS},(_,i)=>PUNTERS[i%4]);
+
+// ── STATE ────────────────────────────────────────────────────────
+let results = {};        // { week: [matt, hamish, sean, jamie] }
+let currentEntryWeek = 1;
+let currentWAWeek    = 1;
+let activeTab        = "dashboard";
+let saveTimer        = null;
+
+// ── SUPABASE ─────────────────────────────────────────────────────
+function setSyncStatus(status){
+  const dot = document.getElementById("sync-dot");
+  dot.className = "sync-dot " + status;
+}
+
+async function loadFromDB(){
+  setSyncStatus("syncing");
+  try {
+    const {data,error} = await db.from("results").select("*");
+    if(error) throw error;
+    results = {};
+    (data||[]).forEach(row=>{
+      results[row.week] = PCOLS.map(c=>row[c]);
+    });
+    setSyncStatus("online");
+  } catch(e){
+    console.error(e);
+    setSyncStatus("offline");
+    showToast("⚠️ Could not connect — check Supabase");
+    // fallback to localStorage
+    try{ const r=localStorage.getItem("pc_results"); if(r) results=JSON.parse(r); }catch{}
+  }
+}
+
+async function saveWeekToDB(week){
+  setSyncStatus("syncing");
+  const w = results[week] || [null,null,null,null];
+  const row = { week, matt:w[0], hamish:w[1], sean:w[2], jamie:w[3], updated_at: new Date().toISOString() };
+  try {
+    const {error} = await db.from("results").upsert(row);
+    if(error) throw error;
+    setSyncStatus("online");
+    showToast("✅ Saved & synced!");
+    // also save locally as backup
+    try{ localStorage.setItem("pc_results", JSON.stringify(results)); }catch{}
+  } catch(e){
+    console.error(e);
+    setSyncStatus("offline");
+    showToast("⚠️ Saved locally — sync failed");
+    try{ localStorage.setItem("pc_results", JSON.stringify(results)); }catch{}
+  }
+}
+
+async function deleteWeekFromDB(week){
+  setSyncStatus("syncing");
+  try {
+    await db.from("results").delete().eq("week", week);
+    setSyncStatus("online");
+    showToast("🗑️ Week cleared");
+  } catch(e){
+    setSyncStatus("offline");
+    showToast("Cleared locally");
+  }
+}
+
+// Subscribe to real-time changes
+function subscribeToChanges(){
+  db.channel("results-changes")
+    .on("postgres_changes",{event:"*",schema:"public",table:"results"},async (payload)=>{
+      // Reload data when anyone else makes a change
+      await loadFromDB();
+      renderActiveTab();
+      showToast("🔄 Updated by another punter!");
+    })
+    .subscribe();
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────
+function fmt$(n,sign=false){
+  if(n===null||n===undefined||n==="")return"—";
+  const a=Math.abs(Number(n)).toFixed(2);
+  if(sign) return Number(n)>=0?`+$${a}`:`-$${a}`;
+  return `$${a}`;
+}
+function fmtPct(n){ return isNaN(n)||n===null?"—":`${Math.round(n*100)}%`; }
+
+function isComplete(wk){
+  const w=results[wk];
+  return w && PUNTERS.every((_,i)=>w[i]!==null&&w[i]!==undefined&&w[i]!=="");
+}
+
+function calcStats(){
+  return PUNTERS.map((name,pi)=>{
+    const rets=Object.values(results).map(w=>w[pi])
+      .filter(v=>v!==null&&v!==undefined&&v!=="").map(Number);
+    const weeks=rets.length;
+    const staked=weeks*STAKE;
+    const totalReturn=rets.reduce((a,b)=>a+b,0);
+    const pnl=totalReturn-staked;
+    const best=weeks?Math.max(...rets)-STAKE:0;
+    const winRate=weeks?rets.filter(r=>r>STAKE).length/weeks:0;
+    return{name,pi,weeks,staked,totalReturn,pnl,best,winRate};
+  });
+}
+
+function rankStats(stats){
+  const sorted=[...stats].sort((a,b)=>b.pnl-a.pnl);
+  return stats.map(s=>({...s,rank:sorted.findIndex(x=>x.name===s.name)+1}));
+}
+
+function getWeeksPlayed(){
+  return Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk)).length;
+}
+
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+// ── TAB SWITCHING ────────────────────────────────────────────────
+function showTab(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  activeTab=id;
+  renderActiveTab();
+}
+
+function renderActiveTab(){
+  if(activeTab==="dashboard")   renderDashboard();
+  if(activeTab==="entry")       renderEntry();
+  if(activeTab==="leaderboard") renderLeaderboard();
+  if(activeTab==="whatsapp")    renderWhatsApp();
+}
+
+// ── DASHBOARD ────────────────────────────────────────────────────
+function renderDashboard(){
+  const stats=rankStats(calcStats());
+  const wp=getWeeksPlayed();
+  const banked=wp*STAKE*4;
+  const leader=stats.find(s=>s.rank===1);
+  const loser=stats.find(s=>s.rank===4);
+  const completed=Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk));
+  const lastPnl=completed.length>0?
+    results[completed[completed.length-1]].reduce((a,b)=>a+Number(b),0)-POOL:null;
+  const pct=Math.min(100,(banked/TRIP)*100);
+
+  document.getElementById("dashboard-content").innerHTML=`
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">CURRENT LEADER</div>
+        <div class="stat-value amber">${leader?.weeks>0?leader.name:"TBD"}</div></div>
+      <div class="stat-card"><div class="stat-label">IN DANGER ☠</div>
+        <div class="stat-value loss">${loser?.weeks>0?loser.name:"TBD"}</div></div>
+      <div class="stat-card"><div class="stat-label">LEADING P&L</div>
+        <div class="stat-value ${leader?.weeks>0?(leader.pnl>=0?"profit":"loss"):""}">${leader?.weeks>0?fmt$(leader.pnl,true):"—"}</div></div>
+      <div class="stat-card"><div class="stat-label">WEEKS PLAYED</div>
+        <div class="stat-value amber">${wp} / 56</div></div>
+      <div class="stat-card"><div class="stat-label">TRIP FUND BANKED</div>
+        <div class="stat-value profit">$${banked.toLocaleString()} / $${TRIP.toLocaleString()}</div></div>
+      <div class="stat-card"><div class="stat-label">LAST WEEK P&L</div>
+        <div class="stat-value ${lastPnl!==null?(lastPnl>=0?"profit":"loss"):"muted"}">${lastPnl!==null?fmt$(lastPnl,true):"—"}</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">🏆 Current Standings</div>
+    <div class="table-wrap">
+      <div class="table-head" style="grid-template-columns:28px 1fr 68px 68px 52px">
+        <div class="table-head-cell">#</div>
+        <div class="table-head-cell" style="text-align:left">PUNTER</div>
+        <div class="table-head-cell">RETURN</div>
+        <div class="table-head-cell">P&L</div>
+        <div class="table-head-cell">WIN%</div>
+      </div>
+      ${stats.sort((a,b)=>a.rank-b.rank).map(s=>`
+        <div class="table-row" style="grid-template-columns:28px 1fr 68px 68px 52px;${s.rank===1&&s.weeks>0?"background:#1C1400":s.rank===4&&s.weeks>0?"background:#200000":""}">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;text-align:center;color:${s.rank===1&&s.weeks>0?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#6B8CA8"}">${s.rank}</div>
+          <div style="font-weight:600;font-size:14px">${s.name}${s.rank===1&&s.weeks>0?" 🏆":""}${s.rank===4&&s.weeks>0?" ☠️":""}</div>
+          <div style="font-size:11px;color:#D9E8F5;text-align:center">${s.weeks>0?fmt$(s.totalReturn):"—"}</div>
+          <div style="font-size:13px;font-weight:700;text-align:center" class="${s.weeks>0?(s.pnl>=0?"profit":"loss"):""}">${s.weeks>0?fmt$(s.pnl,true):"—"}</div>
+          <div style="font-size:12px;text-align:center;color:#F5A623">${s.weeks>0?fmtPct(s.winRate):"—"}</div>
+        </div>`).join("")}
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">📅 Last 5 Weeks</div>
+    <div class="table-wrap">
+      <div class="table-head" style="grid-template-columns:32px 58px 1fr 68px 68px">
+        <div class="table-head-cell">WK</div>
+        <div class="table-head-cell">DATE</div>
+        <div class="table-head-cell" style="text-align:left">WHO</div>
+        <div class="table-head-cell">RETURN</div>
+        <div class="table-head-cell">P&L</div>
+      </div>
+      ${completed.length===0
+        ? `<div style="text-align:center;color:#6B8CA8;padding:20px;font-size:13px">No results yet — enter week 1 in the Entry tab</div>`
+        : completed.slice(-5).reverse().map(wk=>{
+            const w=results[wk];
+            const ret=w.reduce((a,b)=>a+Number(b),0);
+            const pnl=ret-POOL;
+            return`<div class="table-row" style="grid-template-columns:32px 58px 1fr 68px 68px">
+              <div class="wk-badge">${wk}</div>
+              <div style="font-size:11px;color:#D9E8F5;text-align:center">${DATES[wk-1]}</div>
+              <div style="font-size:13px;font-weight:600;color:#F5A623">${ROTATION[wk-1]}</div>
+              <div style="font-size:11px;text-align:center">${fmt$(ret)}</div>
+              <div style="font-size:13px;font-weight:700;text-align:center" class="${pnl>=0?"profit":"loss"}">${fmt$(pnl,true)}</div>
+            </div>`;
+          }).join("")}
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">✈️ Trip Fund Progress</div>
+    <div style="background:#1A2E42;border-radius:10px;padding:14px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span class="muted" style="font-size:12px">Banked so far</span>
+        <span class="profit" style="font-weight:700;font-size:14px">$${banked.toLocaleString()}</span>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between">
+        <span class="muted" style="font-size:11px">${wp} of 56 weeks banked</span>
+        <span class="amber" style="font-weight:700;font-size:12px">$${TRIP.toLocaleString()} goal</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="bonus-box">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:#F5A623;letter-spacing:1px;margin-bottom:6px">★ BONUS RULE</div>
+      <div style="color:#D9E8F5;font-size:13px;line-height:1.5">Pool = <strong style="color:#E8751A">$200</strong> · Trigger = <strong style="color:#F5A623">$600+ return</strong></div>
+      <div style="color:#6B8CA8;font-size:12px;margin-top:4px;font-style:italic">If the Punter-in-Charge triples the pool, they bet AGAIN the following week!</div>
+    </div>`;
+}
+
+// ── ENTRY ────────────────────────────────────────────────────────
+function renderEntry(){
+  const weekData = results[currentEntryWeek]||[null,null,null,null];
+  const complete = isComplete(currentEntryWeek);
+  const totalReturn = complete ? weekData.reduce((a,b)=>a+Number(b),0) : null;
+  const pnl = totalReturn!==null ? totalReturn-POOL : null;
+  const bonus = totalReturn!==null && totalReturn>=BONUS;
+
+  const allWeeksHTML = Array.from({length:WEEKS},(_,i)=>i+1).map(wk=>{
+    const w=results[wk];
+    const comp=w&&PUNTERS.every((_,i)=>w[i]!==null&&w[i]!==undefined&&w[i]!=="");
+    const ret=comp?w.reduce((a,b)=>a+Number(b),0):null;
+    const p=ret!==null?ret-POOL:null;
+    const isCur=wk===currentEntryWeek;
+    return`<div class="table-row" onclick="jumpToWeek(${wk})"
+      style="grid-template-columns:32px 52px 1fr 66px 66px;cursor:pointer;${isCur?"outline:2px solid #E8751A;outline-offset:-2px;":""}">
+      <div class="wk-badge">${wk}</div>
+      <div style="font-size:10px;color:#D9E8F5;text-align:center">${DATES[wk-1]}</div>
+      <div style="font-size:12px;font-weight:600;color:${isCur?"#F5A623":"#D9E8F5"}">${ROTATION[wk-1]}</div>
+      <div style="font-size:11px;text-align:center">${ret!==null?fmt$(ret):"—"}</div>
+      <div style="font-size:12px;font-weight:700;text-align:center" class="${p!==null?(p>=0?"profit":"loss"):""}">${p!==null?fmt$(p,true):"—"}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("entry-content").innerHTML=`
+    <div class="week-selector">
+      <div class="section-title" style="margin-bottom:10px">Select Week</div>
+      <div class="week-nav">
+        <button class="week-btn" onclick="changeWeek(-1)">‹</button>
+        <div style="flex:1;text-align:center">
+          <div class="week-num-big">WK ${currentEntryWeek}</div>
+          <div class="week-date-txt">${DATES[currentEntryWeek-1]}</div>
+        </div>
+        <button class="week-btn" onclick="changeWeek(1)">›</button>
+      </div>
+      <div style="text-align:center">
+        <div class="punter-badge">
+          <span style="font-size:11px;color:#6B8CA8">Punter in Charge:</span>
+          <span style="font-size:14px;font-weight:700;color:#F5A623;font-family:'Barlow Condensed',sans-serif">${ROTATION[currentEntryWeek-1]}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">💰 Enter Returns ($50 staked each)</div>
+    <div class="input-grid">
+      ${PUNTERS.map((name,pi)=>{
+        const val=weekData[pi];
+        const hasVal=val!==null&&val!==undefined&&val!=="";
+        const isP=hasVal&&Number(val)>STAKE;
+        const isL=hasVal&&Number(val)<=STAKE;
+        const pnlText=hasVal?(isP?`+$${(Number(val)-STAKE).toFixed(2)} ✅`:`-$${(STAKE-Number(val)).toFixed(2)} ❌`):"";
+        return`<div class="input-card">
+          <div class="input-name">${name}</div>
+          <div class="input-wrap">
+            <span class="input-dollar">$</span>
+            <input type="number" class="input-field ${hasVal?(isP?"profit":"loss"):""}"
+              id="input-${pi}" placeholder="0.00"
+              value="${hasVal?Number(val):""}"
+              step="0.01" min="0" inputmode="decimal"
+              oninput="updateVal(${pi},this.value)">
+          </div>
+          <div class="input-pnl ${isP?"profit":isL&&hasVal?"loss":""}" id="pnl-${pi}">${pnlText}</div>
+        </div>`;
+      }).join("")}
+    </div>
+
+    ${complete?`<div class="result-box" style="background:${pnl>=0?"#1A4A2A":"#4A1A1A"};border-color:${pnl>=0?"#2ECC71":"#E74C3C"}">
+      <div style="font-size:12px;font-weight:600;letter-spacing:1px;color:${pnl>=0?"#2ECC71":"#E74C3C"};margin-bottom:4px">WEEK ${currentEntryWeek} RESULT</div>
+      <div class="result-big ${pnl>=0?"profit":"loss"}">${fmt$(pnl,true)}</div>
+      <div style="font-size:12px;margin-top:4px;opacity:0.6">Total returned: ${fmt$(totalReturn)} from $200 pool</div>
+      ${bonus?`<div class="bonus-triggered">
+        <div style="color:#F5A623;font-weight:800;font-size:14px;font-family:'Barlow Condensed',sans-serif">★ BONUS RULE TRIGGERED!</div>
+        <div style="color:#D9E8F5;font-size:11px;margin-top:2px">${ROTATION[currentEntryWeek-1]} bets again next week!</div>
+      </div>`:""}
+    </div>`:""}
+
+    <button class="save-btn" onclick="saveWeek()">💾 SAVE WEEK ${currentEntryWeek}</button>
+    <button class="clear-btn" onclick="clearWeek()">Clear Week ${currentEntryWeek}</button>
+
+    <div class="divider"></div>
+    <div class="section-title">Season Overview</div>
+    <div class="table-wrap">
+      <div class="table-head" style="grid-template-columns:32px 52px 1fr 66px 66px">
+        <div class="table-head-cell">WK</div>
+        <div class="table-head-cell">DATE</div>
+        <div class="table-head-cell" style="text-align:left">WHO</div>
+        <div class="table-head-cell">RETURN</div>
+        <div class="table-head-cell">P&L</div>
+      </div>
+      ${allWeeksHTML}
+    </div>`;
+}
+
+function updateVal(pi, val){
+  if(!results[currentEntryWeek]) results[currentEntryWeek]=[null,null,null,null];
+  results[currentEntryWeek][pi] = val===""?null:Number(val);
+
+  // Update just the pnl label and input colour without re-rendering
+  const input = document.getElementById("input-"+pi);
+  const pnlEl = document.getElementById("pnl-"+pi);
+  const hasVal = val!=="";
+  const isP = hasVal && Number(val)>STAKE;
+  if(input){
+    input.className="input-field "+(hasVal?(isP?"profit":"loss"):"");
+  }
+  if(pnlEl){
+    pnlEl.className="input-pnl "+(isP?"profit":hasVal?"loss":"");
+    pnlEl.textContent=hasVal?(isP?`+$${(Number(val)-STAKE).toFixed(2)} ✅`:`-$${(STAKE-Number(val)).toFixed(2)} ❌`):"";
+  }
+
+  // Update result box if all 4 filled in
+  const complete=isComplete(currentEntryWeek);
+  let resultBox=document.querySelector(".result-box");
+  if(complete){
+    const w=results[currentEntryWeek];
+    const ret=w.reduce((a,b)=>a+Number(b),0);
+    const pnl=ret-POOL;
+    const bonus=ret>=BONUS;
+    if(!resultBox){
+      const saveBtn=document.querySelector(".save-btn");
+      const div=document.createElement("div");
+      div.className="result-box";
+      saveBtn.parentNode.insertBefore(div,saveBtn);
+      resultBox=div;
+    }
+    resultBox.style.cssText=`background:${pnl>=0?"#1A4A2A":"#4A1A1A"};border-color:${pnl>=0?"#2ECC71":"#E74C3C"};border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;border:2px solid`;
+    resultBox.innerHTML=`
+      <div style="font-size:12px;font-weight:600;letter-spacing:1px;color:${pnl>=0?"#2ECC71":"#E74C3C"};margin-bottom:4px">WEEK ${currentEntryWeek} RESULT</div>
+      <div class="result-big ${pnl>=0?"profit":"loss"}">${fmt$(pnl,true)}</div>
+      <div style="font-size:12px;margin-top:4px;opacity:0.6">Total returned: ${fmt$(ret)} from $200 pool</div>
+      ${bonus?`<div class="bonus-triggered">
+        <div style="color:#F5A623;font-weight:800;font-size:14px;font-family:'Barlow Condensed',sans-serif">★ BONUS RULE TRIGGERED!</div>
+        <div style="color:#D9E8F5;font-size:11px;margin-top:2px">${ROTATION[currentEntryWeek-1]} bets again next week!</div>
+      </div>`:""}`;
+  }
+}
+
+async function saveWeek(){
+  await saveWeekToDB(currentEntryWeek);
+}
+
+function changeWeek(dir){
+  currentEntryWeek=Math.max(1,Math.min(WEEKS,currentEntryWeek+dir));
+  renderEntry();
+  document.getElementById("tab-entry").scrollTop=0;
+}
+
+function jumpToWeek(wk){
+  currentEntryWeek=wk;
+  renderEntry();
+  document.getElementById("tab-entry").scrollTop=0;
+}
+
+async function clearWeek(){
+  delete results[currentEntryWeek];
+  await deleteWeekFromDB(currentEntryWeek);
+  renderEntry();
+}
+
+// ── LEADERBOARD ───────────────────────────────────────────────────
+function renderLeaderboard(){
+  const stats=rankStats(calcStats()).sort((a,b)=>a.rank-b.rank);
+  const wp=getWeeksPlayed();
+  const banked=wp*STAKE*4;
+  const totalPnl=stats.reduce((a,s)=>a+s.pnl,0);
+  const colors=["#1C1400","#132233","#132233","#200000"];
+  const borders=["#F5A623","#1A2E42","#1A2E42","#E74C3C"];
+
+  document.getElementById("leaderboard-content").innerHTML=`
+    <div class="lb-grid">
+      ${stats.map((s,i)=>`
+        <div class="lb-card" style="background:${colors[i]};border-color:${borders[i]}">
+          <div style="font-size:22px;margin-bottom:4px">${MEDALS[i]}</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:${i===0?"#F5A623":i===3&&s.weeks>0?"#E74C3C":"#fff"}">${s.name}</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px;line-height:1.1;margin-top:4px" class="${s.weeks>0?(s.pnl>=0?"profit":"loss"):""}">${s.weeks>0?fmt$(s.pnl,true):"—"}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">
+            <span class="tag tag-muted">${s.weeks} wks</span>
+            <span class="tag tag-amber">${fmtPct(s.winRate)}</span>
+          </div>
+          ${i===3&&s.weeks>0?'<div style="font-size:9px;color:#E74C3C;font-weight:700;margin-top:6px;letter-spacing:0.5px">ORGANISING BRISBANE?</div>':""}
+        </div>`).join("")}
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Full Stats</div>
+    ${stats.map(s=>`
+      <div style="background:#132233;border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid ${s.rank===1?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#1A2E42"}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:${s.rank===1?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#6B8CA8"}">${s.rank}</span>
+            <span style="font-weight:700;font-size:17px">${s.name}</span>
+          </div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px" class="${s.weeks>0?(s.pnl>=0?"profit":"loss"):""}">${s.weeks>0?fmt$(s.pnl,true):"Not started"}</div>
+        </div>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="mini-stat-label">Weeks</div><div class="mini-stat-value">${s.weeks}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">Staked</div><div class="mini-stat-value muted">${fmt$(s.staked)}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">Best Wk</div><div class="mini-stat-value ${s.best>=0?"profit":"loss"}">${fmt$(s.best,true)}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">Win%</div><div class="mini-stat-value amber">${fmtPct(s.winRate)}</div></div>
+        </div>
+      </div>`).join("")}
+
+    <div class="divider"></div>
+    <div class="section-title">Season Summary</div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">WEEKS PLAYED</div><div class="stat-value">${wp}</div></div>
+      <div class="stat-card"><div class="stat-label">WEEKS LEFT</div><div class="stat-value">${WEEKS-wp}</div></div>
+      <div class="stat-card"><div class="stat-label">TOTAL STAKED</div><div class="stat-value muted">$${(wp*POOL).toLocaleString()}</div></div>
+      <div class="stat-card"><div class="stat-label">OVERALL P&L</div><div class="stat-value ${totalPnl>=0?"profit":"loss"}">${fmt$(totalPnl,true)}</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">✈️ Trip Fund</div>
+    <div style="background:#1A2E42;border-radius:12px;padding:14px;border:1px solid #2ECC7144">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:#2ECC71;letter-spacing:1px;margin-bottom:10px">✈️ TRIP FUND TRACKER</div>
+      ${[["Banked so far","$"+banked.toLocaleString(),"#2ECC71"],
+         ["Remaining","$"+(TRIP-banked).toLocaleString(),"#F5A623"],
+         ["Final fund","$"+TRIP.toLocaleString(),"#2ECC71"]].map(([l,v,c],i,a)=>`
+        <div style="display:flex;justify-content:space-between;padding:7px 0;${i<a.length-1?"border-bottom:1px solid #132233":""}">
+          <span style="color:#6B8CA8;font-size:12px">${l}</span>
+          <span style="color:${c};font-weight:700;font-size:14px">${v}</span>
+        </div>`).join("")}
+      <div class="progress-wrap" style="margin-top:10px">
+        <div class="progress-bar" style="width:${Math.min(100,(banked/TRIP)*100)}%"></div>
+      </div>
+    </div>`;
+}
+
+// ── WHATSAPP ─────────────────────────────────────────────────────
+function buildMessage(){
+  const stats=rankStats(calcStats()).sort((a,b)=>a.rank-b.rank);
+  const w=results[currentWAWeek];
+  const complete=isComplete(currentWAWeek);
+  const totalReturn=complete?w.reduce((a,b)=>a+Number(b),0):null;
+  const pnl=totalReturn!==null?totalReturn-POOL:null;
+  const wp=getWeeksPlayed();
+  const banked=wp*STAKE*4;
+  const lines=[
+    `🏈 PUNTERS CLUB — WEEK ${currentWAWeek} RESULTS 🏈`,
+    `━━━━━━━━━━━━━━━━━━`,
+    `📅 ${DATES[currentWAWeek-1]}`,
+    `🎯 Punter: ${ROTATION[currentWAWeek-1]}`,
+    `━━━━━━━━━━━━━━━━━━`,`💰 RETURNS:`,
+  ];
+  PUNTERS.forEach((name,i)=>{
+    const val=w?.[i];
+    const hasVal=val!==null&&val!==undefined&&val!=="";
+    lines.push(`  ${name}: ${hasVal?`$${Number(val).toFixed(2)} ${Number(val)>STAKE?"✅":"❌"}`:"—"}`);
+  });
+  lines.push(`━━━━━━━━━━━━━━━━━━`);
+  if(totalReturn!==null){
+    lines.push(`📊 Pool: $200  |  Return: $${totalReturn.toFixed(2)}`);
+    lines.push(`📈 P&L: ${pnl>=0?"+":""}$${pnl.toFixed(2)} ${pnl>=0?"🟢":"🔴"}`);
+  }
+  lines.push(`━━━━━━━━━━━━━━━━━━`,`🏆 STANDINGS:`);
+  stats.forEach(s=>{
+    const pre=s.rank===4?"  ☠️":`  ${s.rank}.`;
+    const p=s.weeks>0?` (${s.pnl>=0?"+":""}$${s.pnl.toFixed(2)})`:"";
+    lines.push(`${pre} ${s.name}${p}${s.rank===4&&s.weeks>0?" — organising Brisbane?":""}`);
+  });
+  lines.push(`━━━━━━━━━━━━━━━━━━`);
+  lines.push(`✈️ Trip fund: $${banked.toLocaleString()} / $${TRIP.toLocaleString()}`);
+  lines.push(`📆 ${WEEKS-currentWAWeek} weeks to Brisbane! 🍺🏈`);
+  return lines.join("\n");
+}
+
+function renderWhatsApp(){
+  const complete=isComplete(currentWAWeek);
+  document.getElementById("whatsapp-content").innerHTML=`
+    <div class="week-selector">
+      <div class="section-title" style="margin-bottom:10px">Select Week to Share</div>
+      <div class="week-nav">
+        <button class="week-btn" onclick="changeWAWeek(-1)">‹</button>
+        <div style="flex:1;text-align:center">
+          <div class="week-num-big">WK ${currentWAWeek}</div>
+          <div class="week-date-txt">${complete?"✅ Results entered":"⏳ No results yet"}</div>
+        </div>
+        <button class="week-btn" onclick="changeWAWeek(1)">›</button>
+      </div>
+    </div>
+    <button class="copy-btn" id="copy-btn" onclick="copyMessage()">📋 COPY MESSAGE</button>
+    <div class="section-title">Message Preview</div>
+    <div class="wa-preview">${buildMessage()}</div>
+    <div class="tip-box">
+      <div style="font-size:11px;color:#6B8CA8;line-height:1.5">
+        💡 <strong style="color:#D9E8F5">How to use:</strong> Enter results in the Entry tab, tap Save, then come here and tap Copy Message. Paste straight into your WhatsApp group. Done!
+      </div>
+    </div>`;
+}
+
+function changeWAWeek(dir){
+  currentWAWeek=Math.max(1,Math.min(WEEKS,currentWAWeek+dir));
+  renderWhatsApp();
+}
+
+function copyMessage(){
+  const msg=buildMessage();
+  const btn=document.getElementById("copy-btn");
+  navigator.clipboard.writeText(msg).then(()=>{
+    btn.textContent="✅ COPIED! PASTE INTO WHATSAPP";
+    btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="📋 COPY MESSAGE";btn.classList.remove("copied");},2500);
+  }).catch(()=>{
+    const ta=document.createElement("textarea");
+    ta.value=msg;ta.style.cssText="position:fixed;opacity:0";
+    document.body.appendChild(ta);ta.focus();ta.select();
+    document.execCommand("copy");document.body.removeChild(ta);
+    btn.textContent="✅ COPIED!";btn.classList.add("copied");
+    setTimeout(()=>{btn.textContent="📋 COPY MESSAGE";btn.classList.remove("copied");},2500);
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+(async function(){
+  await loadFromDB();
+  // Set entry week to first incomplete week
+  const completed=Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk));
+  currentEntryWeek=completed.length>0?Math.min(completed[completed.length-1]+1,WEEKS):1;
+  currentWAWeek=completed.length>0?completed[completed.length-1]:1;
+  renderDashboard();
+  subscribeToChanges();
+})();
+</script>
+
+</body>
+</html>
