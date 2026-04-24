@@ -26,9 +26,9 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .login-badge{background:#E8751A;color:#fff;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:11px;letter-spacing:3px;padding:3px 10px;border-radius:3px;margin:10px auto 0;display:inline-block}
 .login-card{background:#132233;border-radius:16px;padding:24px;width:100%;max-width:340px;margin-top:32px;border:1px solid #1A2E42}
 .login-title{font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;color:#F5A623;letter-spacing:1px;margin-bottom:16px;text-align:center}
-.login-input{width:100%;background:#0D2A4A;border:2px solid #E8751A;border-radius:10px;color:#fff;font-size:18px;font-family:‘Barlow’,sans-serif;font-weight:600;text-align:center;padding:14px;outline:none;letter-spacing:4px;margin-bottom:12px}
+.login-input{width:100%;background:#0D2A4A;border:2px solid #E8751A;border-radius:10px;color:#fff;font-size:18px;font-family:‘Barlow’,sans-serif;font-weight:600;text-align:center;padding:14px;outline:none;margin-bottom:6px}
 .login-input:focus{border-color:#F5A623}
-.login-btn{width:100%;padding:15px;background:#E8751A;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:20px;cursor:pointer;letter-spacing:1px}
+.login-btn{width:100%;padding:18px;background:#E8751A;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:20px;cursor:pointer;letter-spacing:1px}
 .login-btn:active{opacity:0.8}
 .login-error{color:#E74C3C;font-size:13px;text-align:center;margin-top:8px;min-height:20px;font-weight:600}
 .login-hint{color:#6B8CA8;font-size:11px;text-align:center;margin-top:12px;line-height:1.5}
@@ -183,9 +183,12 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   </div>
   <div class="login-card">
     <div class="login-title">🔒 ENTER PASSWORD</div>
-    <input type="password" class="login-input" id="login-input"
-      placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">ENTER</button>
+    <input type="text" class="login-input" id="login-input"
+      placeholder="Enter password"
+      autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <div style="font-size:10px;color:#6B8CA8;text-align:center;margin-bottom:10px">Passwords are case-sensitive</div>
+    <button class="login-btn" onclick="doLogin()">ENTER →</button>
     <div class="login-error" id="login-error"></div>
     <div class="login-hint">Password provided by Matt<br>Admin access for result entry</div>
   </div>
