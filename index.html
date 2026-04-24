@@ -185,10 +185,9 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
     <div class="login-title">🔒 ENTER PASSWORD</div>
     <input type="text" class="login-input" id="login-input"
       placeholder="Enter password"
-      autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
-      onkeydown="if(event.key==='Enter')doLogin()">
+      autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
     <div style="font-size:10px;color:#6B8CA8;text-align:center;margin-bottom:10px">Passwords are case-sensitive</div>
-    <button class="login-btn" onclick="doLogin()">ENTER →</button>
+    <button class="login-btn" id="login-btn" type="button">ENTER →</button>
     <div class="login-error" id="login-error"></div>
     <div class="login-hint">Password provided by Matt<br>Admin access for result entry</div>
   </div>
@@ -266,6 +265,15 @@ function doLogin(){
     setTimeout(()=>err.textContent="", 2500);
   }
 }
+
+// Wire up login button and input after DOM ready — more reliable on iOS than inline onclick
+document.addEventListener("DOMContentLoaded", function(){
+  const btn = document.getElementById("login-btn");
+  const input = document.getElementById("login-input");
+  if(btn) btn.addEventListener("touchend", function(e){ e.preventDefault(); doLogin(); });
+  if(btn) btn.addEventListener("click", function(e){ e.preventDefault(); doLogin(); });
+  if(input) input.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); doLogin(); } });
+});
 
 function enterApp(){
   document.getElementById("login-screen").style.display = "none";
