@@ -14,27 +14,10 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:#0D1B2A;color:#fff;font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden}
-input[type=number],input[type=password],input[type=text]{-moz-appearance:textfield}
+input[type=number]{-moz-appearance:textfield}
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .app{max-width:480px;margin:0 auto;min-height:100vh;background:#0D1B2A}
-
-/* LOGIN SCREEN */
-.login-screen{position:fixed;inset:0;background:#0D1B2A;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px}
-.login-logo{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:48px;color:#E8751A;letter-spacing:2px;text-align:center;line-height:1}
-.login-sub{font-family:‘Barlow Condensed’,sans-serif;font-weight:700;font-size:14px;color:#F5A623;letter-spacing:3px;margin-top:6px;text-align:center}
-.login-badge{background:#E8751A;color:#fff;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:11px;letter-spacing:3px;padding:3px 10px;border-radius:3px;margin:10px auto 0;display:inline-block}
-.login-card{background:#132233;border-radius:16px;padding:24px;width:100%;max-width:340px;margin-top:32px;border:1px solid #1A2E42}
-.login-title{font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;color:#F5A623;letter-spacing:1px;margin-bottom:16px;text-align:center}
-.login-input{width:100%;background:#0D2A4A;border:2px solid #E8751A;border-radius:10px;color:#fff;font-size:18px;font-family:‘Barlow’,sans-serif;font-weight:600;text-align:center;padding:14px;outline:none;margin-bottom:6px}
-.login-input:focus{border-color:#F5A623}
-.login-btn{width:100%;padding:18px;background:#E8751A;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:20px;cursor:pointer;letter-spacing:1px}
-.login-btn:active{opacity:0.8}
-.login-error{color:#E74C3C;font-size:13px;text-align:center;margin-top:8px;min-height:20px;font-weight:600}
-.login-hint{color:#6B8CA8;font-size:11px;text-align:center;margin-top:12px;line-height:1.5}
-
-/* ADMIN BADGE */
-.admin-badge{background:#E8751A;color:#0D1B2A;font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:10px;padding:2px 7px;border-radius:10px;letter-spacing:1px;margin-left:6px}
 
 /* HEADER */
 .header{background:#132233;padding:14px 16px 12px;text-align:center;border-bottom:3px solid #E8751A}
@@ -51,7 +34,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 /* NAV */
 .nav{display:flex;background:#132233;border-bottom:1px solid #1A2E42;position:sticky;top:0;z-index:100;overflow-x:auto;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex:1;min-width:60px;padding:10px 2px;border:none;background:transparent;color:#6B8CA8;font-size:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;letter-spacing:0.5px;cursor:pointer;white-space:nowrap;transition:all 0.15s}
+.nav-btn{flex:1;min-width:56px;padding:10px 2px;border:none;background:transparent;color:#6B8CA8;font-size:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;letter-spacing:0.5px;cursor:pointer;white-space:nowrap;transition:all 0.15s}
 .nav-btn.active{background:#E8751A;color:#0D1B2A}
 
 /* PAGE */
@@ -67,7 +50,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .spinner{display:inline-block;width:24px;height:24px;border:3px solid #1A2E42;border-top-color:#E8751A;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* CARDS */
+/* STAT CARDS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .stat-card{background:#1A2E42;border:1.5px solid #E8751A;border-radius:10px;padding:10px 12px}
 .stat-label{font-size:9px;font-weight:700;color:#6B8CA8;letter-spacing:1.5px;font-family:‘Barlow Condensed’,sans-serif;text-transform:uppercase;margin-bottom:4px}
@@ -77,7 +60,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .table-wrap{border-radius:10px;overflow:hidden;border:1px solid #1A2E42}
 .table-head{background:#132233;padding:8px 10px;display:grid;gap:4px}
 .table-head-cell{font-size:10px;font-weight:700;color:#F5A623;font-family:‘Barlow Condensed’,sans-serif;letter-spacing:1px;text-align:center}
-.table-row{padding:9px 10px;display:grid;gap:4px;align-items:center}
+.table-row{padding:9px 10px;display:grid;gap:4px;align-items:center;cursor:pointer}
 .table-row:nth-child(even){background:#132233}
 .table-row:nth-child(odd){background:#1A2E42}
 
@@ -101,18 +84,14 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .input-field:focus{border-color:#F5A623;background:#1A3A5A}
 .input-field.profit{background:#1A4A2A;border-color:#2ECC71;color:#2ECC71}
 .input-field.loss{background:#4A1A1A;border-color:#E74C3C;color:#E74C3C}
-.input-field:disabled{opacity:0.5;cursor:not-allowed}
 .input-pnl{margin-top:4px;font-size:11px;font-weight:600;text-align:center;min-height:16px}
 
-/* RESULT */
+/* RESULT BOX */
 .result-box{border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;border:2px solid}
 .result-big{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:44px;line-height:1}
 .bonus-alert{background:#1C1A00;border:2px solid #F5A623;border-radius:8px;padding:10px 12px;margin-top:8px}
 
-/* VIEW ONLY BANNER */
-.view-only-banner{background:#1A2E42;border:1px solid #6B8CA8;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-
-/* LB */
+/* LEADERBOARD */
 .lb-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .lb-card{border-radius:12px;padding:14px;border:2px solid}
 .mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-top:8px}
@@ -125,11 +104,21 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .progress-bar{background:linear-gradient(90deg,#E8751A,#F5A623);height:100%;border-radius:99px;transition:width 0.6s ease}
 
 /* BUTTONS */
-.copy-btn{background:#2ECC71;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;padding:15px 0;width:100%;cursor:pointer;letter-spacing:1px;margin-bottom:14px;transition:all 0.15s}
+.copy-btn{background:#2ECC71;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;padding:15px 0;width:100%;cursor:pointer;letter-spacing:1px;margin-bottom:14px}
 .copy-btn.copied{background:#F5A623}
 .clear-btn{width:100%;padding:12px 0;background:transparent;border:1px solid #1A2E42;border-radius:10px;color:#6B8CA8;font-size:13px;cursor:pointer;font-family:‘Barlow Condensed’,sans-serif;font-weight:700;margin-top:4px}
 .save-btn{width:100%;padding:14px 0;background:#E8751A;color:#0D1B2A;border:none;border-radius:10px;font-family:‘Barlow Condensed’,sans-serif;font-weight:800;font-size:18px;cursor:pointer;letter-spacing:1px;margin-bottom:10px}
-.logout-btn{background:transparent;border:1px solid #1A2E42;color:#6B8CA8;border-radius:8px;padding:6px 12px;font-size:11px;cursor:pointer;font-family:‘Barlow Condensed’,sans-serif;font-weight:700}
+
+/* COUNTDOWN */
+.countdown-box{background:linear-gradient(135deg,#132233,#1A2E42);border:2px solid #E8751A;border-radius:14px;padding:16px;margin-bottom:10px;text-align:center}
+.countdown-num{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:56px;color:#E8751A;line-height:1}
+
+/* HOF */
+.hof-box{background:#1C1400;border:2px solid #F5A623;border-radius:14px;padding:16px;margin-bottom:10px}
+.hof-win{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:46px;color:#2ECC71;line-height:1}
+
+/* CHART */
+.chart-box{background:#132233;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #1A2E42}
 
 /* RULES */
 .rule-card{background:#132233;border-radius:12px;padding:14px;margin-bottom:10px;border-left:4px solid #E8751A}
@@ -138,20 +127,9 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 .rule-highlight{color:#F5A623;font-weight:700}
 .rules-header{background:linear-gradient(135deg,#132233,#1A2E42);border-radius:12px;padding:16px;margin-bottom:16px;text-align:center;border:1px solid #E8751A}
 
-/* WA */
+/* WA PREVIEW */
 .wa-preview{background:#0A1E0A;border:1.5px solid #2ECC71;border-radius:12px;padding:16px;font-family:monospace;font-size:13px;line-height:1.7;color:#2ECC71;white-space:pre-wrap;word-break:break-word}
 
-/* COUNTDOWN */
-.countdown-box{background:linear-gradient(135deg,#132233,#1A2E42);border:2px solid #E8751A;border-radius:14px;padding:16px;margin-bottom:10px;text-align:center}
-.countdown-num{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:56px;color:#E8751A;line-height:1}
-.countdown-label{font-size:11px;color:#6B8CA8;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
-.countdown-sub{font-size:12px;color:#F5A623;font-weight:600;margin-top:6px}
-/* HALL OF FAME */
-.hof-box{background:#1C1400;border:2px solid #F5A623;border-radius:14px;padding:16px;margin-bottom:10px}
-.hof-title{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:16px;color:#F5A623;letter-spacing:1px;margin-bottom:10px}
-.hof-win{font-family:‘Barlow Condensed’,sans-serif;font-weight:900;font-size:46px;color:#2ECC71;line-height:1}
-/* CHART */
-.chart-box{background:#132233;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #1A2E42}
 /* UTILS */
 .profit{color:#2ECC71!important}
 .loss{color:#E74C3C!important}
@@ -170,57 +148,13 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 
 </head>
 <body>
-
-<!-- LOGIN SCREEN -->
-
-<div class="login-screen" id="login-screen">
-  <div>
-    <div style="text-align:center;margin-bottom:8px">
-      <div class="login-badge">NRL PREMIERSHIP 2026</div>
-    </div>
-    <div class="login-logo">🏉 PUNTERS<br>CLUB</div>
-    <div class="login-sub">MAGIC ROUND · BRISBANE 2027</div>
-  </div>
-  <div class="login-card">
-    <div class="login-title">🔒 ENTER PASSWORD</div>
-    <form onsubmit="doLogin(event)" action="javascript:void(0)">
-      <input type="text" class="login-input" id="login-input"
-        placeholder="Enter password"
-        autocomplete="off" autocorrect="off"
-        autocapitalize="none" spellcheck="false">
-      <div style="font-size:10px;color:#6B8CA8;text-align:center;margin-bottom:12px">
-        Case-sensitive · provided by Matt
-      </div>
-      <button type="submit" class="login-btn">ENTER →</button>
-    </form>
-    <div class="login-error" id="login-error"></div>
-  </div>
-</div>
-
-<div class="app" id="main-app" style="display:none">
-
-  <!-- HEADER -->
-
+<div class="app">
   <div class="header">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start">
-      <div style="flex:1"></div>
-      <div style="flex:1;text-align:center">
-        <div class="nrl-badge">NRL PREMIERSHIP 2026</div>
-        <div class="header-title">🏉 PUNTERS CLUB</div>
-        <div class="header-sub">MAGIC ROUND · BRISBANE 2027</div>
-        <div class="header-detail">
-          APR 2026 → MAY 2027 · 56 WEEKS
-          <span class="sync-dot offline" id="sync-dot"></span>
-        </div>
-      </div>
-      <div style="flex:1;text-align:right;padding-top:4px">
-        <div id="user-badge" style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:#6B8CA8;margin-bottom:4px"></div>
-        <button class="logout-btn" onclick="doLogout()">LOGOUT</button>
-      </div>
-    </div>
+    <div class="nrl-badge">NRL PREMIERSHIP 2026</div>
+    <div class="header-title">🏉 PUNTERS CLUB</div>
+    <div class="header-sub">MAGIC ROUND · BRISBANE 2027</div>
+    <div class="header-detail">APR 2026 → MAY 2027 · 56 WEEKS · $200 POOL/WK <span class="sync-dot offline" id="sync-dot"></span></div>
   </div>
-
-  <!-- NAV -->
 
   <div class="nav">
     <button class="nav-btn active" id="nav-dashboard" onclick="showTab('dashboard')">📊 Dash</button>
@@ -232,1065 +166,873 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
     <button class="nav-btn" id="nav-graph" onclick="showTab('graph')">📈 Kitty</button>
   </div>
 
-  <!-- TABS -->
-
   <div id="tab-dashboard" class="page active"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
-  <div id="tab-entry" class="page"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
+  <div id="tab-entry" class="page"></div>
   <div id="tab-leaderboard" class="page"><div class="loading"><div class="spinner"></div><br>Loading...</div></div>
   <div id="tab-whatsapp" class="page"></div>
   <div id="tab-rules" class="page"></div>
-
   <div id="tab-hof" class="page"></div>
   <div id="tab-graph" class="page"></div>
+
   <div class="toast" id="toast"></div>
 </div>
 
 <script>
-// ── PASSWORDS ────────────────────────────────────────────────────
-const PW_VIEW  = "GWSWDL";
-const PW_ADMIN = "GWSWDL*";
+var SUPABASE_URL = "https://ndsbuovvckxglbgptymc.supabase.co";
+var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kc2J1b3Z2Y2t4Z2xiZ3B0eW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjM4MzMsImV4cCI6MjA5MjUzOTgzM30.dQ6TW7ViK6tFIk7duSf0SENC2BvGzkGaDwgtGnzuzbY";
+var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── AUTH ─────────────────────────────────────────────────────────
-let isAdmin = false;
-let isLoggedIn = false;
+var PUNTERS  = ["Matt","Hamish","Sean","Jamie"];
+var PCOLS    = ["matt","hamish","sean","jamie"];
+var WEEKS    = 56;
+var POOL     = 200;
+var AUTO_BANK = 200;
+var BONUS_TRIGGER = 600;
+var BONUS_KEEP    = 200;
+var BRISBANE_DATE = new Date("2027-05-21");
+var START    = new Date("2026-04-06");
+var MEDALS   = ["🥇","🥈","🥉","☠️"];
 
-function doLogin(e){ if(e) e.preventDefault();
-  const val = document.getElementById("login-input").value.trim();
-  const err = document.getElementById("login-error");
-  if(val === PW_ADMIN){
-    isAdmin = true; isLoggedIn = true;
-    enterApp();
-  } else if(val === PW_VIEW){
-    isAdmin = false; isLoggedIn = true;
-    enterApp();
-  } else {
-    err.textContent = "❌ Incorrect password — try again";
-    document.getElementById("login-input").value = "";
-    setTimeout(()=>err.textContent="", 2500);
-  }
+var DATES = [];
+for (var i = 0; i < WEEKS; i++) {
+  var d = new Date(START);
+  d.setDate(d.getDate() + i * 7);
+  DATES.push(d.toLocaleDateString("en-AU", {day:"2-digit", month:"short"}));
+}
+var ROTATION = [];
+for (var i = 0; i < WEEKS; i++) {
+  ROTATION.push(PUNTERS[i % 4]);
 }
 
-
-
-function enterApp(){
-  document.getElementById("login-screen").style.display = "none";
-  document.getElementById("main-app").style.display = "block";
-  document.getElementById("user-badge").textContent = isAdmin ? "👑 ADMIN" : "👁 VIEWER";
-  sessionStorage.setItem("pc_auth", isAdmin ? "admin" : "view");
-  initApp();
-}
-
-function doLogout(){
-  sessionStorage.removeItem("pc_auth");
-  isAdmin = false; isLoggedIn = false;
-  document.getElementById("login-screen").style.display = "flex";
-  document.getElementById("main-app").style.display = "none";
-  document.getElementById("login-input").value = "";
-}
-
-// Check session on load
-window.addEventListener("load", ()=>{
-  const saved = sessionStorage.getItem("pc_auth");
-  if(saved === "admin"){ isAdmin=true; isLoggedIn=true; enterApp(); }
-  else if(saved === "view"){ isAdmin=false; isLoggedIn=true; enterApp(); }
-});
-
-// ── CONFIG ───────────────────────────────────────────────────────
-const SUPABASE_URL = "https://ndsbuovvckxglbgptymc.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kc2J1b3Z2Y2t4Z2xiZ3B0eW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjM4MzMsImV4cCI6MjA5MjUzOTgzM30.dQ6TW7ViK6tFIk7duSf0SENC2BvGzkGaDwgtGnzuzbY";
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const PUNTERS  = ["Matt","Hamish","Sean","Jamie"];
-const PCOLS    = ["matt","hamish","sean","jamie"];
-const WEEKS    = 56;
-const POOL     = 200;
-const AUTO_BANK = 200;
-const BONUS_TRIGGER = 600;
-const BONUS_KEEP    = 200;
-const START    = new Date("2026-04-06");
-const MEDALS   = ["🥇","🥈","🥉","☠️"];
-
-const DATES = Array.from({length:WEEKS},(_,i)=>{
-  const d=new Date(START); d.setDate(d.getDate()+i*7);
-  return d.toLocaleDateString("en-AU",{day:"2-digit",month:"short"});
-});
-const ROTATION = Array.from({length:WEEKS},(_,i)=>PUNTERS[i%4]);
-
-let results = {};
-let currentEntryWeek = 1;
-let currentWAWeek    = 1;
-let activeTab        = "dashboard";
+var results = {};
+var currentEntryWeek = 1;
+var currentWAWeek = 1;
+var activeTab = "dashboard";
+var kittyChart = null;
 
 // ── SUPABASE ─────────────────────────────────────────────────────
-function setSyncStatus(s){
-  const dot=document.getElementById("sync-dot");
-  if(dot) dot.className="sync-dot "+s;
+function setSyncStatus(s) {
+  var dot = document.getElementById("sync-dot");
+  if (dot) dot.className = "sync-dot " + s;
 }
 
-async function loadFromDB(){
+function loadFromDB() {
   setSyncStatus("syncing");
-  try {
-    const {data,error}=await db.from("results").select("*");
-    if(error) throw error;
-    results={};
-    (data||[]).forEach(row=>{
-      results[row.week]={
-        returns:PCOLS.map(c=>row[c]),
-        bonusPunter:row.bonus_punter||null,
-        bonusReturn:row.bonus_return||null
+  db.from("results").select("*").then(function(res) {
+    if (res.error) {
+      console.error("DB error:", res.error);
+      setSyncStatus("offline");
+      showToast("DB error — check Supabase");
+      renderActiveTab();
+      return;
+    }
+    results = {};
+    (res.data || []).forEach(function(row) {
+      results[row.week] = {
+        returns: PCOLS.map(function(c) { return (row[c] !== undefined && row[c] !== null) ? row[c] : null; }),
+        bonusPunter: (row.bonus_punter !== undefined) ? row.bonus_punter : null,
+        bonusReturn: (row.bonus_return !== undefined) ? row.bonus_return : null
       };
     });
     setSyncStatus("online");
-  } catch(e){
+    renderActiveTab();
+  }).catch(function(e) {
+    console.error("Fetch error:", e);
     setSyncStatus("offline");
-    showToast("⚠️ Offline — saved locally");
-    try{ const r=localStorage.getItem("pc26"); if(r) results=JSON.parse(r); }catch{}
-  }
+    showToast("Connection failed");
+    renderActiveTab();
+  });
 }
 
-async function saveWeekToDB(week){
-  if(!isAdmin){ showToast("🔒 View only — contact Matt to update results"); return; }
+function saveWeekToDB(week) {
   setSyncStatus("syncing");
-  const w=results[week]||{returns:[null,null,null,null],bonusPunter:null,bonusReturn:null};
-  const row={week,matt:w.returns[0],hamish:w.returns[1],sean:w.returns[2],jamie:w.returns[3],
-    bonus_punter:w.bonusPunter||null,bonus_return:w.bonusReturn||null,updated_at:new Date().toISOString()};
-  try {
-    const {error}=await db.from("results").upsert(row);
-    if(error) throw error;
+  var w = results[week] || {returns:[null,null,null,null], bonusPunter:null, bonusReturn:null};
+  var row = {
+    week: week,
+    matt: w.returns[0], hamish: w.returns[1], sean: w.returns[2], jamie: w.returns[3],
+    bonus_punter: w.bonusPunter || null,
+    bonus_return: w.bonusReturn || null,
+    updated_at: new Date().toISOString()
+  };
+  db.from("results").upsert(row).then(function(res) {
+    if (res.error) throw res.error;
     setSyncStatus("online");
     showToast("✅ Saved & synced!");
-    try{ localStorage.setItem("pc26",JSON.stringify(results)); }catch{}
-  } catch(e){
+  }).catch(function(e) {
+    console.error(e);
     setSyncStatus("offline");
-    showToast("⚠️ Saved locally");
-    try{ localStorage.setItem("pc26",JSON.stringify(results)); }catch{}
-  }
+    showToast("⚠️ Save failed — check connection");
+  });
 }
 
-async function deleteWeekFromDB(week){
-  if(!isAdmin){ showToast("🔒 View only — contact Matt to update results"); return; }
-  try { await db.from("results").delete().eq("week",week); showToast("🗑️ Week cleared"); }
-  catch(e){ showToast("Cleared locally"); }
+function deleteWeekFromDB(week) {
+  db.from("results").delete().eq("week", week).then(function() {
+    showToast("🗑️ Week cleared");
+  });
 }
 
-function subscribeToChanges(){
+function subscribeToChanges() {
   db.channel("results-live")
-    .on("postgres_changes",{event:"*",schema:"public",table:"results"},async()=>{
-      await loadFromDB(); renderActiveTab(); showToast("🔄 Updated!");
+    .on("postgres_changes", {event:"*", schema:"public", table:"results"}, function() {
+      loadFromDB();
+      showToast("🔄 Updated!");
     }).subscribe();
 }
 
 // ── HELPERS ──────────────────────────────────────────────────────
-function fmt$(n,sign=false){
-  if(n===null||n===undefined||n==="")return"—";
-  const a=Math.abs(Number(n)).toFixed(2);
-  if(sign)return Number(n)>=0?`+$${a}`:`-$${a}`;
-  return`$${a}`;
-}
-function fmtPct(n){return isNaN(n)||n===null?"—":`${Math.round(n*100)}%`;}
-
-function isComplete(wk){
-  const w=results[wk];
-  if(!w)return false;
-  return PUNTERS.every((_,i)=>w.returns[i]!==null&&w.returns[i]!==undefined&&w.returns[i]!=="");
+function fmt$(n, sign) {
+  if (n === null || n === undefined || n === "") return "—";
+  var a = Math.abs(Number(n)).toFixed(2);
+  if (sign) return Number(n) >= 0 ? "+$" + a : "-$" + a;
+  return "$" + a;
 }
 
-function calcBanked(wk){
-  if(!isComplete(wk))return 0;
-  const w=results[wk];
-  const ret=w.returns.reduce((a,b)=>a+Number(b),0);
-  let banked=AUTO_BANK+ret;
-  if(ret>=BONUS_TRIGGER) banked=AUTO_BANK+ret-BONUS_KEEP;
-  if(w.bonusReturn!==null&&w.bonusReturn!==undefined&&w.bonusReturn!==""){
-    const br=Number(w.bonusReturn);
-    if(br>=BONUS_TRIGGER) banked+=br-BONUS_KEEP;
-    else banked+=br;
+function fmtPct(n) {
+  return isNaN(n) || n === null ? "—" : Math.round(n * 100) + "%";
+}
+
+function isComplete(wk) {
+  var w = results[wk];
+  if (!w) return false;
+  for (var i = 0; i < PUNTERS.length; i++) {
+    if (w.returns[i] === null || w.returns[i] === undefined || w.returns[i] === "") return false;
+  }
+  return true;
+}
+
+function calcBanked(wk) {
+  if (!isComplete(wk)) return 0;
+  var w = results[wk];
+  var ret = w.returns.reduce(function(a, b) { return a + Number(b); }, 0);
+  var banked = AUTO_BANK + ret;
+  if (ret >= BONUS_TRIGGER) banked = AUTO_BANK + ret - BONUS_KEEP;
+  if (w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "") {
+    var br = Number(w.bonusReturn);
+    if (br >= BONUS_TRIGGER) banked += br - BONUS_KEEP;
+    else banked += br;
   }
   return banked;
 }
 
-function getTotalBanked(){
-  return Array.from({length:WEEKS},(_,i)=>i+1)
-    .filter(wk=>isComplete(wk)).reduce((a,wk)=>a+calcBanked(wk),0);
+function getTotalBanked() {
+  var total = 0;
+  for (var i = 1; i <= WEEKS; i++) {
+    if (isComplete(i)) total += calcBanked(i);
+  }
+  return total;
 }
 
-function calcStats(){
-  return PUNTERS.map((name,pi)=>{
-    const weekReturns=[];
-    Object.keys(results).forEach(wk=>{
-      if(!isComplete(Number(wk)))return;
-      const w=results[wk];
-      if(w.returns[pi]!==null&&w.returns[pi]!==undefined&&w.returns[pi]!=="")
-        weekReturns.push({ret:Number(w.returns[pi]),staked:POOL});
-      if(w.bonusPunter===name&&w.bonusReturn!==null&&w.bonusReturn!==undefined&&w.bonusReturn!=="")
-        weekReturns.push({ret:Number(w.bonusReturn),staked:POOL});
+function getWeeksPlayed() {
+  var count = 0;
+  for (var i = 1; i <= WEEKS; i++) {
+    if (isComplete(i)) count++;
+  }
+  return count;
+}
+
+function calcStats() {
+  return PUNTERS.map(function(name, pi) {
+    var weekReturns = [];
+    Object.keys(results).forEach(function(wk) {
+      if (!isComplete(Number(wk))) return;
+      var w = results[wk];
+      if (w.returns[pi] !== null && w.returns[pi] !== undefined && w.returns[pi] !== "")
+        weekReturns.push({ret: Number(w.returns[pi]), staked: POOL});
+      if (w.bonusPunter === name && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "")
+        weekReturns.push({ret: Number(w.bonusReturn), staked: POOL});
     });
-    const weeks=weekReturns.length;
-    const staked=weekReturns.reduce((a,b)=>a+b.staked,0);
-    const totalReturn=weekReturns.reduce((a,b)=>a+b.ret,0);
-    const pnl=totalReturn-staked;
-    const best=weeks?Math.max(...weekReturns.map(r=>r.ret-r.staked)):0;
-    const winRate=weeks?weekReturns.filter(r=>r.ret>r.staked).length/weeks:0;
-    return{name,pi,weeks,staked,totalReturn,pnl,best,winRate};
+    var weeks = weekReturns.length;
+    var staked = weekReturns.reduce(function(a,b) { return a+b.staked; }, 0);
+    var totalReturn = weekReturns.reduce(function(a,b) { return a+b.ret; }, 0);
+    var pnl = totalReturn - staked;
+    var best = weeks ? Math.max.apply(null, weekReturns.map(function(r) { return r.ret - r.staked; })) : 0;
+    var wins = weekReturns.filter(function(r) { return r.ret > r.staked; }).length;
+    var winRate = weeks ? wins / weeks : 0;
+    return {name:name, pi:pi, weeks:weeks, staked:staked, totalReturn:totalReturn, pnl:pnl, best:best, winRate:winRate};
   });
 }
 
-function rankStats(stats){
-  const sorted=[...stats].sort((a,b)=>b.pnl-a.pnl);
-  return stats.map(s=>({...s,rank:sorted.findIndex(x=>x.name===s.name)+1}));
+function rankStats(stats) {
+  var sorted = stats.slice().sort(function(a,b) { return b.pnl - a.pnl; });
+  return stats.map(function(s) {
+    return Object.assign({}, s, {rank: sorted.findIndex(function(x) { return x.name === s.name; }) + 1});
+  });
 }
 
-function getWeeksPlayed(){
-  return Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk)).length;
-}
-
-function getCurrentBonusPunter(){
-  const completed=Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk));
-  if(completed.length===0)return null;
-  const lastWk=completed[completed.length-1];
-  const w=results[lastWk];
-  const ret=w.returns.reduce((a,b)=>a+Number(b),0);
-  if(ret>=BONUS_TRIGGER) return ROTATION[lastWk-1];
-  if(w.bonusReturn!==null&&Number(w.bonusReturn)>=BONUS_TRIGGER) return w.bonusPunter;
-  return null;
-}
-
-function showToast(msg){
-  const t=document.getElementById("toast");
-  t.textContent=msg; t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2500);
-}
-
-// ── TAB ──────────────────────────────────────────────────────────
-function showTab(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+id).classList.add('active');
-  document.getElementById('nav-'+id).classList.add('active');
-  activeTab=id; renderActiveTab();
-}
-
-function renderActiveTab(){
-  if(activeTab==="dashboard")renderDashboard();
-  if(activeTab==="entry")renderEntry();
-  if(activeTab==="leaderboard")renderLeaderboard();
-  if(activeTab==="whatsapp")renderWhatsApp();
-  if(activeTab==="rules")renderRules();
-  if(activeTab==="hof"){renderHOF();}
-  if(activeTab==="graph"){renderGraphTab();}
-}
-
-
-// ── BRISBANE DATE ────────────────────────────────────────────────
-const BRISBANE_DATE = new Date("2027-05-21"); // Magic Round 2027
-
-function getDaysTo(){
-  const now = new Date();
-  const diff = BRISBANE_DATE - now;
+function getDaysTo() {
+  var diff = BRISBANE_DATE - new Date();
   return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 }
 
-function getBiggestWin(){
-  let best = null;
-  Array.from({length:WEEKS},(_,i)=>i+1).forEach(wk=>{
-    if(!isComplete(wk)) return;
-    const w = results[wk];
-    // Check each punter's return
-    PUNTERS.forEach((name, pi) => {
-      const val = w.returns[pi];
-      if(val === null || val === undefined || val === "") return;
-      const ret = Number(val);
-      const profit = ret - POOL;
-      if(best === null || profit > best.profit){
-        best = { profit, ret, name, week: wk, date: DATES[wk-1], isBonus: false };
-      }
+function getBiggestWin() {
+  var best = null;
+  for (var wk = 1; wk <= WEEKS; wk++) {
+    if (!isComplete(wk)) continue;
+    var w = results[wk];
+    PUNTERS.forEach(function(name, pi) {
+      var val = w.returns[pi];
+      if (val === null || val === undefined || val === "") return;
+      var profit = Number(val) - POOL;
+      if (best === null || profit > best.profit)
+        best = {profit:profit, ret:Number(val), name:name, week:wk, date:DATES[wk-1], isBonus:false};
     });
-    // Check bonus return
-    if(w.bonusPunter && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== ""){
-      const ret = Number(w.bonusReturn);
-      const profit = ret - POOL;
-      if(best === null || profit > best.profit){
-        best = { profit, ret, name: w.bonusPunter, week: wk, date: DATES[wk-1], isBonus: true };
-      }
+    if (w.bonusPunter && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "") {
+      var profit = Number(w.bonusReturn) - POOL;
+      if (best === null || profit > best.profit)
+        best = {profit:profit, ret:Number(w.bonusReturn), name:w.bonusPunter, week:wk, date:DATES[wk-1], isBonus:true};
     }
-  });
+  }
   return best;
 }
 
-function getKittyHistory(){
-  // Returns array of {week, cumulative} for completed weeks
-  let cumulative = 0;
-  const history = [];
-  Array.from({length:WEEKS},(_,i)=>i+1).forEach(wk=>{
-    if(!isComplete(wk)) return;
+function getKittyHistory() {
+  var cumulative = 0;
+  var history = [];
+  for (var wk = 1; wk <= WEEKS; wk++) {
+    if (!isComplete(wk)) continue;
     cumulative += calcBanked(wk);
-    history.push({ week: wk, amount: Math.round(cumulative), label: "Wk "+wk });
-  });
+    history.push({week:wk, amount:Math.round(cumulative), label:"Wk "+wk});
+  }
   return history;
 }
 
+function getCurrentBonusPunter() {
+  var lastWk = 0;
+  for (var i = 1; i <= WEEKS; i++) { if (isComplete(i)) lastWk = i; }
+  if (!lastWk) return null;
+  var w = results[lastWk];
+  var ret = w.returns.reduce(function(a,b) { return a+Number(b); }, 0);
+  if (ret >= BONUS_TRIGGER) return ROTATION[lastWk-1];
+  if (w.bonusReturn !== null && Number(w.bonusReturn) >= BONUS_TRIGGER) return w.bonusPunter;
+  return null;
+}
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, 2500);
+}
+
+// ── TABS ─────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("active"); });
+  document.querySelectorAll(".nav-btn").forEach(function(b) { b.classList.remove("active"); });
+  document.getElementById("tab-" + id).classList.add("active");
+  document.getElementById("nav-" + id).classList.add("active");
+  activeTab = id;
+  renderActiveTab();
+}
+
+function renderActiveTab() {
+  if (activeTab === "dashboard") renderDashboard();
+  if (activeTab === "entry") renderEntry();
+  if (activeTab === "leaderboard") renderLeaderboard();
+  if (activeTab === "whatsapp") renderWhatsApp();
+  if (activeTab === "rules") renderRules();
+  if (activeTab === "hof") renderHOF();
+  if (activeTab === "graph") renderGraph();
+}
+
 // ── DASHBOARD ────────────────────────────────────────────────────
-function renderDashboard(){
-  const stats=rankStats(calcStats());
-  const wp=getWeeksPlayed();
-  const totalBanked=getTotalBanked();
-  const leader=stats.find(s=>s.rank===1);
-  const loser=stats.find(s=>s.rank===4);
-  const completed=Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk));
-  const lastWk=completed.length>0?completed[completed.length-1]:null;
-  const lastBanked=lastWk?calcBanked(lastWk):null;
-  const bonusPunter=getCurrentBonusPunter();
+function renderDashboard() {
+  var stats = rankStats(calcStats());
+  var wp = getWeeksPlayed();
+  var totalBanked = getTotalBanked();
+  var leader = stats.find(function(s) { return s.rank === 1; });
+  var loser  = stats.find(function(s) { return s.rank === 4; });
+  var days = getDaysTo();
+  var bonusPunter = getCurrentBonusPunter();
+  var completed = [];
+  for (var i = 1; i <= WEEKS; i++) { if (isComplete(i)) completed.push(i); }
+  var lastWk = completed.length > 0 ? completed[completed.length-1] : null;
+  var lastBanked = lastWk ? calcBanked(lastWk) : null;
+  var pct = Math.min(100, (totalBanked / 11200) * 100);
 
-  document.getElementById("tab-dashboard").innerHTML=`
-    <!-- COUNTDOWN -->
-    ${renderCountdown()}
+  var html = "";
 
-    <div class="stat-grid">
-      <div class="stat-card"><div class="stat-label">CURRENT LEADER</div>
-        <div class="stat-value amber">${leader?.weeks>0?leader.name:"TBD"}</div></div>
-      <div class="stat-card"><div class="stat-label">IN DANGER ☠</div>
-        <div class="stat-value loss">${loser?.weeks>0?loser.name:"TBD"}</div></div>
-      <div class="stat-card"><div class="stat-label">LEADING P&L</div>
-        <div class="stat-value ${leader?.weeks>0?(leader.pnl>=0?"profit":"loss"):""}">${leader?.weeks>0?fmt$(leader.pnl,true):"—"}</div></div>
-      <div class="stat-card"><div class="stat-label">WEEKS PLAYED</div>
-        <div class="stat-value amber">${wp} / 56</div></div>
-      <div class="stat-card"><div class="stat-label">🎒 TRIP KITTY</div>
-        <div class="stat-value profit">$${Math.round(totalBanked).toLocaleString()}</div></div>
-      <div class="stat-card"><div class="stat-label">LAST WEEK BANKED</div>
-        <div class="stat-value profit">${lastBanked!==null?"$"+Math.round(lastBanked).toLocaleString():"—"}</div></div>
-    </div>
+  // Countdown
+  html += '<div class="countdown-box">';
+  html += '<div style="font-size:10px;color:#6B8CA8;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">MAGIC ROUND BRISBANE 2027</div>';
+  html += '<div class="countdown-num">' + days + '</div>';
+  html += '<div style="font-size:11px;color:#6B8CA8;letter-spacing:2px;text-transform:uppercase;margin-top:2px">DAYS TO GO</div>';
+  html += '<div style="font-size:12px;color:#F5A623;font-weight:600;margin-top:6px">' + Math.floor(days/7) + ' weeks and ' + (days%7) + ' days · 21 May 2027</div>';
+  html += '</div>';
 
-    ${bonusPunter?`<div style="background:#1C1A00;border:2px solid #F5A623;border-radius:12px;padding:12px;margin-bottom:10px;text-align:center">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;color:#F5A623;letter-spacing:1px">⚡ BONUS PUNTER THIS WEEK</div>
-      <div style="font-size:22px;font-weight:800;color:#fff;margin-top:4px">${bonusPunter}</div>
-      <div style="font-size:11px;color:#6B8CA8;margin-top:2px">Bets again alongside the regular rotation punter</div>
-    </div>`:""}
+  if (bonusPunter) {
+    html += '<div style="background:#1C1A00;border:2px solid #F5A623;border-radius:12px;padding:12px;margin-bottom:10px;text-align:center">';
+    html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:16px;color:#F5A623;letter-spacing:1px">⚡ BONUS PUNTER THIS WEEK</div>';
+    html += '<div style="font-size:22px;font-weight:800;margin-top:4px">' + bonusPunter + '</div>';
+    html += '<div style="font-size:11px;color:#6B8CA8;margin-top:2px">Bets again alongside the regular rotation punter</div>';
+    html += '</div>';
+  }
 
-    <div class="divider"></div>
-    <div class="section-title">🏆 Current Standings</div>
-    <div class="table-wrap">
-      <div class="table-head" style="grid-template-columns:28px 1fr 68px 68px 52px">
-        <div class="table-head-cell">#</div>
-        <div class="table-head-cell" style="text-align:left">PUNTER</div>
-        <div class="table-head-cell">RETURN</div>
-        <div class="table-head-cell">P&L</div>
-        <div class="table-head-cell">WIN%</div>
-      </div>
-      ${stats.sort((a,b)=>a.rank-b.rank).map(s=>`
-        <div class="table-row" style="grid-template-columns:28px 1fr 68px 68px 52px;${s.rank===1&&s.weeks>0?"background:#1C1400":s.rank===4&&s.weeks>0?"background:#200000":""}">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:16px;text-align:center;color:${s.rank===1&&s.weeks>0?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#6B8CA8"}">${s.rank}</div>
-          <div style="font-weight:600;font-size:14px">${s.name}${s.rank===1&&s.weeks>0?" 🏆":""}${s.rank===4&&s.weeks>0?" ☠️":""}</div>
-          <div style="font-size:11px;color:#D9E8F5;text-align:center">${s.weeks>0?fmt$(s.totalReturn):"—"}</div>
-          <div style="font-size:13px;font-weight:700;text-align:center" class="${s.weeks>0?(s.pnl>=0?"profit":"loss"):""}">${s.weeks>0?fmt$(s.pnl,true):"—"}</div>
-          <div style="font-size:12px;text-align:center;color:#F5A623">${s.weeks>0?fmtPct(s.winRate):"—"}</div>
-        </div>`).join("")}
-    </div>
+  // Stat cards
+  html += '<div class="stat-grid">';
+  html += '<div class="stat-card"><div class="stat-label">CURRENT LEADER</div><div class="stat-value amber">' + (leader && leader.weeks > 0 ? leader.name : "TBD") + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">IN DANGER ☠</div><div class="stat-value loss">' + (loser && loser.weeks > 0 ? loser.name : "TBD") + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">LEADING P&L</div><div class="stat-value ' + (leader && leader.weeks > 0 ? (leader.pnl >= 0 ? "profit" : "loss") : "") + '">' + (leader && leader.weeks > 0 ? fmt$(leader.pnl, true) : "—") + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">WEEKS PLAYED</div><div class="stat-value amber">' + wp + ' / 56</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">🎒 TRIP KITTY</div><div class="stat-value profit">$' + Math.round(totalBanked).toLocaleString() + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">LAST WEEK BANKED</div><div class="stat-value profit">' + (lastBanked !== null ? "$" + Math.round(lastBanked).toLocaleString() : "—") + '</div></div>';
+  html += '</div>';
 
-    <div class="divider"></div>
-    <div class="section-title">📅 Last 5 Weeks</div>
-    <div class="table-wrap">
-      <div class="table-head" style="grid-template-columns:28px 52px 1fr 70px 70px">
-        <div class="table-head-cell">WK</div><div class="table-head-cell">DATE</div>
-        <div class="table-head-cell" style="text-align:left">WHO</div>
-        <div class="table-head-cell">RETURN</div><div class="table-head-cell">BANKED</div>
-      </div>
-      ${completed.length===0
-        ?`<div style="text-align:center;color:#6B8CA8;padding:20px;font-size:13px">No results yet</div>`
-        :completed.slice(-5).reverse().map(wk=>{
-          const w=results[wk];
-          const ret=w.returns.reduce((a,b)=>a+Number(b),0);
-          const banked=calcBanked(wk);
-          return`<div class="table-row" style="grid-template-columns:28px 52px 1fr 70px 70px">
-            <div class="wk-badge">${wk}</div>
-            <div style="font-size:11px;color:#D9E8F5;text-align:center">${DATES[wk-1]}</div>
-            <div style="font-size:12px;font-weight:600;color:#F5A623">${ROTATION[wk-1]}${w.bonusPunter?` +${w.bonusPunter}`:""}</div>
-            <div style="font-size:11px;text-align:center">${fmt$(ret)}</div>
-            <div style="font-size:13px;font-weight:700;text-align:center" class="profit">$${Math.round(banked).toLocaleString()}</div>
-          </div>`;
-        }).join("")}
-    </div>
-
-    <div class="divider"></div>
-    <div class="section-title">🎒 Trip Kitty</div>
-    <div style="background:#1A2E42;border-radius:10px;padding:14px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-        <span class="muted" style="font-size:12px">Total banked</span>
-        <span class="profit" style="font-weight:700;font-size:16px">$${Math.round(totalBanked).toLocaleString()}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-        <span class="muted" style="font-size:11px">Guaranteed min (${wp} × $200)</span>
-        <span class="amber" style="font-size:12px;font-weight:600">$${(wp*AUTO_BANK).toLocaleString()}</span>
-      </div>
-      <div class="progress-wrap"><div class="progress-bar" style="width:${Math.min(100,(totalBanked/11200)*100)}%"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:4px">
-        <span class="muted" style="font-size:11px">${wp} of 56 weeks</span>
-        <span class="amber" style="font-weight:700;font-size:12px">$11,200 min target</span>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-    <div class="bonus-box">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:#F5A623;letter-spacing:1px;margin-bottom:6px">⚡ BONUS RULE</div>
-      <div style="color:#D9E8F5;font-size:13px;line-height:1.6">Return <strong style="color:#F5A623">$600+</strong> → keep <strong style="color:#E8751A">$200</strong> to bet again next week<br>
-      <span style="color:#6B8CA8;font-size:11px">Rotation stays the same — you bet alongside the next punter. Keep going as long as you keep hitting $600+!</span></div>
-    </div>`;
-}
-
-
-// ── COUNTDOWN ────────────────────────────────────────────────────
-function renderCountdown(){
-  const days = getDaysTo();
-  const weeks = Math.floor(days / 7);
-  const remaining = days % 7;
-  return `<div class="countdown-box">
-    <div style="font-size:10px;color:#6B8CA8;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">MAGIC ROUND BRISBANE 2027</div>
-    <div class="countdown-num">${days}</div>
-    <div class="countdown-label">days to go</div>
-    <div class="countdown-sub">That's ${weeks} weeks and ${remaining} days · ${new Date("2027-05-21").toLocaleDateString("en-AU",{day:"2-digit",month:"long",year:"numeric"})}</div>
-  </div>`;
-}
-
-// ── BIGGEST WIN ──────────────────────────────────────────────────
-function renderBiggestWin(){
-  const best = getBiggestWin();
-  if(!best) return `<div class="hof-box">
-    <div class="hof-title">🏆 BIGGEST WIN EVER</div>
-    <div style="color:#6B8CA8;font-size:13px;text-align:center;padding:10px 0">No results yet — someone make history!</div>
-  </div>`;
-
-  return `<div class="hof-box">
-    <div class="hof-title">🏆 BIGGEST WIN EVER</div>
-    <div style="display:flex;align-items:flex-end;justify-content:space-between">
-      <div>
-        <div style="font-size:10px;color:#6B8CA8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">profit on the week</div>
-        <div class="hof-win">${fmt$(best.profit, true)}</div>
-        <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">
-          <span style="background:#2A1800;color:#F5A623;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;padding:3px 10px;border-radius:20px">${best.name}</span>
-          <span style="background:#132233;color:#6B8CA8;font-size:11px;padding:3px 10px;border-radius:20px">Week ${best.week} · ${best.date}</span>
-          ${best.isBonus ? '<span style="background:#1C1A00;color:#F5A623;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid #F5A623">⚡ BONUS BET</span>' : ''}
-        </div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:10px;color:#6B8CA8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">returned</div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px;color:#fff">${fmt$(best.ret)}</div>
-        <div style="font-size:10px;color:#6B8CA8;margin-top:2px">from $200 pool</div>
-      </div>
-    </div>
-  </div>`;
-}
-
-// ── KITTY GRAPH ──────────────────────────────────────────────────
-let kittyChart = null;
-
-function renderKittyGraph(){
-  const history = getKittyHistory();
-  if(history.length === 0) return `<div class="chart-box">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:#E8751A;letter-spacing:1px;margin-bottom:8px">🎒 TRIP KITTY GROWTH</div>
-    <div style="color:#6B8CA8;font-size:13px;text-align:center;padding:20px 0">Enter results to see the kitty grow!</div>
-  </div>`;
-
-  // Build min guaranteed line (200 per week)
-  const minLine = history.map(h => h.week * 200);
-
-  return `<div class="chart-box">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:#E8751A;letter-spacing:1px;margin-bottom:12px">🎒 TRIP KITTY GROWTH</div>
-    <canvas id="kitty-chart" height="160"></canvas>
-    <div style="display:flex;gap:14px;margin-top:8px;justify-content:center">
-      <div style="display:flex;align-items:center;gap:4px"><div style="width:12px;height:3px;background:#2ECC71;border-radius:2px"></div><span style="font-size:10px;color:#6B8CA8">Actual kitty</span></div>
-      <div style="display:flex;align-items:center;gap:4px"><div style="width:12px;height:3px;background:#E8751A;border-radius:2px;opacity:0.5"></div><span style="font-size:10px;color:#6B8CA8">Guaranteed min</span></div>
-    </div>
-  </div>`;
-}
-
-function initKittyChart(){
-  const canvas = document.getElementById("kitty-chart");
-  if(!canvas) return;
-  const history = getKittyHistory();
-  if(history.length === 0) return;
-
-  // Destroy previous chart if exists
-  if(kittyChart){ kittyChart.destroy(); kittyChart = null; }
-
-  const labels = history.map(h => "Wk "+h.week);
-  const actuals = history.map(h => h.amount);
-  const minLine = history.map(h => h.week * 200);
-
-  kittyChart = new Chart(canvas, {
-    type: "line",
-    data: {
-      labels,
-      datasets: [
-        {
-          label: "Actual kitty",
-          data: actuals,
-          borderColor: "#2ECC71",
-          backgroundColor: "rgba(46,204,113,0.08)",
-          borderWidth: 2.5,
-          pointBackgroundColor: "#2ECC71",
-          pointRadius: history.length > 20 ? 0 : 3,
-          tension: 0.3,
-          fill: true,
-        },
-        {
-          label: "Guaranteed min",
-          data: minLine,
-          borderColor: "rgba(232,117,26,0.4)",
-          borderWidth: 1.5,
-          borderDash: [5,4],
-          pointRadius: 0,
-          tension: 0,
-          fill: false,
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      animation: { duration: 600 },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: "#132233",
-          borderColor: "#E8751A",
-          borderWidth: 1,
-          titleColor: "#F5A623",
-          bodyColor: "#D9E8F5",
-          callbacks: {
-            label: ctx => ctx.datasetIndex === 0
-              ? ` Kitty: $${ctx.parsed.y.toLocaleString()}`
-              : ` Min: $${ctx.parsed.y.toLocaleString()}`
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: { color: "rgba(255,255,255,0.04)" },
-          ticks: { color: "#6B8CA8", font: { size: 9 }, maxTicksLimit: 10 }
-        },
-        y: {
-          grid: { color: "rgba(255,255,255,0.04)" },
-          ticks: {
-            color: "#6B8CA8", font: { size: 9 },
-            callback: v => "$" + v.toLocaleString()
-          },
-          beginAtZero: true
-        }
-      }
-    }
+  // Standings
+  html += '<div class="divider"></div>';
+  html += '<div class="section-title">🏆 Current Standings</div>';
+  html += '<div class="table-wrap">';
+  html += '<div class="table-head" style="grid-template-columns:28px 1fr 68px 68px 52px">';
+  html += '<div class="table-head-cell">#</div><div class="table-head-cell" style="text-align:left">PUNTER</div><div class="table-head-cell">RETURN</div><div class="table-head-cell">P&L</div><div class="table-head-cell">WIN%</div>';
+  html += '</div>';
+  var sortedStats = stats.slice().sort(function(a,b) { return a.rank - b.rank; });
+  sortedStats.forEach(function(s) {
+    var bg = s.rank === 1 && s.weeks > 0 ? "background:#1C1400" : s.rank === 4 && s.weeks > 0 ? "background:#200000" : "";
+    html += '<div class="table-row" style="grid-template-columns:28px 1fr 68px 68px 52px;' + bg + '">';
+    html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:16px;text-align:center;color:' + (s.rank===1&&s.weeks>0?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#6B8CA8") + '">' + s.rank + '</div>';
+    html += '<div style="font-weight:600;font-size:14px">' + s.name + (s.rank===1&&s.weeks>0?" 🏆":"") + (s.rank===4&&s.weeks>0?" ☠️":"") + '</div>';
+    html += '<div style="font-size:11px;color:#D9E8F5;text-align:center">' + (s.weeks > 0 ? fmt$(s.totalReturn) : "—") + '</div>';
+    html += '<div style="font-size:13px;font-weight:700;text-align:center" class="' + (s.weeks>0?(s.pnl>=0?"profit":"loss"):"") + '">' + (s.weeks > 0 ? fmt$(s.pnl, true) : "—") + '</div>';
+    html += '<div style="font-size:12px;text-align:center;color:#F5A623">' + (s.weeks > 0 ? fmtPct(s.winRate) : "—") + '</div>';
+    html += '</div>';
   });
-}
+  html += '</div>';
 
-
-// ── HALL OF FAME TAB ─────────────────────────────────────────────
-function renderHOF(){
-  const best = getBiggestWin();
-  const wp = getWeeksPlayed();
-
-  // Build top 5 wins all time
-  let allWins = [];
-  Array.from({length:WEEKS},(_,i)=>i+1).forEach(wk=>{
-    if(!isComplete(wk)) return;
-    const w = results[wk];
-    PUNTERS.forEach((name, pi) => {
-      const val = w.returns[pi];
-      if(val === null || val === undefined || val === "") return;
-      const ret = Number(val);
-      allWins.push({ profit: ret - POOL, ret, name, week: wk, date: DATES[wk-1], isBonus: false });
+  // Last 5 weeks
+  html += '<div class="divider"></div>';
+  html += '<div class="section-title">📅 Last 5 Weeks</div>';
+  html += '<div class="table-wrap">';
+  html += '<div class="table-head" style="grid-template-columns:28px 52px 1fr 70px 70px">';
+  html += '<div class="table-head-cell">WK</div><div class="table-head-cell">DATE</div><div class="table-head-cell" style="text-align:left">WHO</div><div class="table-head-cell">RETURN</div><div class="table-head-cell">BANKED</div>';
+  html += '</div>';
+  if (completed.length === 0) {
+    html += '<div style="text-align:center;color:#6B8CA8;padding:20px;font-size:13px">No results yet</div>';
+  } else {
+    var last5 = completed.slice(-5).reverse();
+    last5.forEach(function(wk) {
+      var w = results[wk];
+      var ret = w.returns.reduce(function(a,b) { return a+Number(b); }, 0);
+      var banked = calcBanked(wk);
+      html += '<div class="table-row" style="grid-template-columns:28px 52px 1fr 70px 70px">';
+      html += '<div class="wk-badge">' + wk + '</div>';
+      html += '<div style="font-size:11px;color:#D9E8F5;text-align:center">' + DATES[wk-1] + '</div>';
+      html += '<div style="font-size:12px;font-weight:600;color:#F5A623">' + ROTATION[wk-1] + (w.bonusPunter ? " +" + w.bonusPunter : "") + '</div>';
+      html += '<div style="font-size:11px;text-align:center">' + fmt$(ret) + '</div>';
+      html += '<div style="font-size:13px;font-weight:700;text-align:center" class="profit">$' + Math.round(banked).toLocaleString() + '</div>';
+      html += '</div>';
     });
-    if(w.bonusPunter && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== ""){
-      const ret = Number(w.bonusReturn);
-      allWins.push({ profit: ret - POOL, ret, name: w.bonusPunter, week: wk, date: DATES[wk-1], isBonus: true });
-    }
-  });
-  allWins.sort((a,b) => b.profit - a.profit);
-  const top5 = allWins.slice(0, 5);
+  }
+  html += '</div>';
 
-  // Punter win counts
-  const winCounts = {};
-  PUNTERS.forEach(p => winCounts[p] = allWins.filter(w => w.profit > 0 && w.name === p).length);
+  // Trip kitty progress
+  html += '<div class="divider"></div>';
+  html += '<div class="section-title">🎒 Trip Kitty</div>';
+  html += '<div style="background:#1A2E42;border-radius:10px;padding:14px">';
+  html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="muted" style="font-size:12px">Total banked</span><span class="profit" style="font-weight:700;font-size:16px">$' + Math.round(totalBanked).toLocaleString() + '</span></div>';
+  html += '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="muted" style="font-size:11px">Guaranteed min (' + wp + ' × $200)</span><span class="amber" style="font-size:12px;font-weight:600">$' + (wp*200).toLocaleString() + '</span></div>';
+  html += '<div class="progress-wrap"><div class="progress-bar" style="width:' + pct + '%"></div></div>';
+  html += '<div style="display:flex;justify-content:space-between;margin-top:4px"><span class="muted" style="font-size:11px">' + wp + ' of 56 weeks</span><span class="amber" style="font-weight:700;font-size:12px">$11,200 min target</span></div>';
+  html += '</div>';
 
-  document.getElementById("tab-hof").innerHTML = `
-    <div class="rules-header" style="margin-bottom:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:#F5A623;letter-spacing:2px">🏆 HALL OF FAME</div>
-      <div style="font-size:12px;color:#6B8CA8;margin-top:4px">Best single week performances · Season 2026</div>
-    </div>
+  // Bonus rule
+  html += '<div class="divider"></div>';
+  html += '<div class="bonus-box">';
+  html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:16px;color:#F5A623;letter-spacing:1px;margin-bottom:6px">⚡ BONUS RULE</div>';
+  html += '<div style="color:#D9E8F5;font-size:13px;line-height:1.6">Return <strong style="color:#F5A623">$600+</strong> → keep <strong style="color:#E8751A">$200</strong> to bet again next week</div>';
+  html += '<div style="color:#6B8CA8;font-size:11px;margin-top:4px;font-style:italic">Rotation stays the same. Keep going as long as you keep hitting $600+!</div>';
+  html += '</div>';
 
-    ${!best ? `<div style="background:#132233;border-radius:12px;padding:30px;text-align:center;color:#6B8CA8;font-size:14px">No results yet — someone make history! 🏉</div>` : `
-    <div class="hof-box" style="margin-bottom:14px">
-      <div style="font-size:10px;color:#6B8CA8;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">👑 ALL TIME BEST</div>
-      <div style="display:flex;align-items:flex-end;justify-content:space-between">
-        <div>
-          <div style="font-size:10px;color:#6B8CA8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">profit</div>
-          <div class="hof-win">${fmt$(best.profit, true)}</div>
-          <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">
-            <span style="background:#2A1800;color:#F5A623;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;padding:4px 12px;border-radius:20px">${best.name}</span>
-            <span style="background:#132233;color:#6B8CA8;font-size:11px;padding:4px 10px;border-radius:20px">Week ${best.week} · ${best.date}</span>
-            ${best.isBonus ? '<span style="background:#1C1A00;color:#F5A623;font-size:10px;font-weight:700;padding:4px 8px;border-radius:20px;border:1px solid #F5A623">⚡ BONUS BET</span>' : ''}
-          </div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:10px;color:#6B8CA8;margin-bottom:2px">returned</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:#fff">${fmt$(best.ret)}</div>
-          <div style="font-size:10px;color:#6B8CA8">from $200 pool</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section-title">Top 5 Weeks</div>
-    <div class="table-wrap" style="margin-bottom:14px">
-      <div class="table-head" style="grid-template-columns:28px 1fr 52px 70px 70px">
-        <div class="table-head-cell">#</div>
-        <div class="table-head-cell" style="text-align:left">PUNTER</div>
-        <div class="table-head-cell">WK</div>
-        <div class="table-head-cell">RETURN</div>
-        <div class="table-head-cell">PROFIT</div>
-      </div>
-      ${top5.map((w,i) => `
-        <div class="table-row" style="grid-template-columns:28px 1fr 52px 70px 70px;${i===0?"background:#1C1400":""}">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;text-align:center;color:${i===0?"#F5A623":"#6B8CA8"}">${i+1}</div>
-          <div style="font-size:13px;font-weight:600">${w.name}${w.isBonus?" ⚡":""}</div>
-          <div style="font-size:11px;text-align:center;color:#6B8CA8">${w.week}</div>
-          <div style="font-size:12px;text-align:center">${fmt$(w.ret)}</div>
-          <div style="font-size:13px;font-weight:700;text-align:center" class="${w.profit>=0?"profit":"loss"}">${fmt$(w.profit,true)}</div>
-        </div>`).join("")}
-    </div>
-
-    <div class="section-title">Wins by Punter</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-      ${PUNTERS.map(p => `
-        <div style="background:#132233;border-radius:10px;padding:12px;border:1px solid #1A2E42;text-align:center">
-          <div style="font-weight:700;font-size:15px;margin-bottom:4px">${p}</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;color:#2ECC71">${winCounts[p]}</div>
-          <div style="font-size:10px;color:#6B8CA8;text-transform:uppercase;letter-spacing:1px">profitable weeks</div>
-        </div>`).join("")}
-    </div>`}`;
-}
-
-// ── KITTY GRAPH TAB ──────────────────────────────────────────────
-let kittyChart = null;
-
-function renderGraphTab(){
-  const history = getKittyHistory();
-  const totalBanked = getTotalBanked();
-  const wp = getWeeksPlayed();
-  const projected = wp > 0 ? Math.round((totalBanked / wp) * WEEKS) : 11200;
-
-  document.getElementById("tab-graph").innerHTML = `
-    <div class="rules-header" style="margin-bottom:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:#2ECC71;letter-spacing:2px">🎒 TRIP KITTY GROWTH</div>
-      <div style="font-size:12px;color:#6B8CA8;margin-top:4px">Watch that kitty grow week by week</div>
-    </div>
-
-    <div class="stat-grid" style="margin-bottom:14px">
-      <div class="stat-card"><div class="stat-label">TOTAL BANKED</div>
-        <div class="stat-value profit">$${Math.round(totalBanked).toLocaleString()}</div></div>
-      <div class="stat-card"><div class="stat-label">PROJECTED FINAL</div>
-        <div class="stat-value amber">$${projected.toLocaleString()}</div></div>
-      <div class="stat-card"><div class="stat-label">ABOVE MINIMUM</div>
-        <div class="stat-value profit">+$${Math.round(Math.max(0, totalBanked - wp * 200)).toLocaleString()}</div></div>
-      <div class="stat-card"><div class="stat-label">AVG PER WEEK</div>
-        <div class="stat-value amber">${wp > 0 ? "$" + Math.round(totalBanked / wp).toLocaleString() : "—"}</div></div>
-    </div>
-
-    ${history.length === 0
-      ? `<div style="background:#132233;border-radius:12px;padding:40px;text-align:center;color:#6B8CA8;font-size:14px">No results yet — the kitty starts growing when results are entered!</div>`
-      : `<div class="chart-box">
-          <canvas id="kitty-chart" height="220"></canvas>
-          <div style="display:flex;gap:16px;margin-top:10px;justify-content:center">
-            <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:#2ECC71;border-radius:2px"></div><span style="font-size:11px;color:#6B8CA8">Actual kitty</span></div>
-            <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:#E8751A;border-radius:2px;opacity:0.5"></div><span style="font-size:11px;color:#6B8CA8">Guaranteed min</span></div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-        <div class="section-title">Week by Week</div>
-        <div class="table-wrap">
-          <div class="table-head" style="grid-template-columns:32px 55px 1fr 80px 80px">
-            <div class="table-head-cell">WK</div>
-            <div class="table-head-cell">DATE</div>
-            <div class="table-head-cell" style="text-align:left">PUNTER</div>
-            <div class="table-head-cell">BANKED</div>
-            <div class="table-head-cell">TOTAL</div>
-          </div>
-          ${history.map((h,i) => {
-            const wk = h.week;
-            const banked = calcBanked(wk);
-            const extra = banked - 200;
-            return `<div class="table-row" style="grid-template-columns:32px 55px 1fr 80px 80px">
-              <div class="wk-badge">${wk}</div>
-              <div style="font-size:10px;color:#D9E8F5;text-align:center">${DATES[wk-1]}</div>
-              <div style="font-size:12px;font-weight:600;color:#F5A623">${ROTATION[wk-1]}${results[wk]?.bonusPunter?" +"+results[wk].bonusPunter:""}</div>
-              <div style="font-size:12px;text-align:center" class="profit">$${Math.round(banked).toLocaleString()}${extra>0?` <span style="font-size:9px;color:#2ECC71">(+${Math.round(extra)})</span>`:""}</div>
-              <div style="font-size:13px;font-weight:700;text-align:center;color:#F5A623">$${h.amount.toLocaleString()}</div>
-            </div>`;
-          }).join("")}
-        </div>`}`;
-
-  setTimeout(initKittyChart, 50);
+  document.getElementById("tab-dashboard").innerHTML = html;
 }
 
 // ── ENTRY ────────────────────────────────────────────────────────
-function renderEntry(){
-  const weekData=results[currentEntryWeek]||{returns:[null,null,null,null],bonusPunter:null,bonusReturn:null};
-  let expectedBonusPunter=null;
-  if(currentEntryWeek>1){
-    const prev=results[currentEntryWeek-1];
-    if(prev&&isComplete(currentEntryWeek-1)){
-      const prevRet=prev.returns.reduce((a,b)=>a+Number(b),0);
-      if(prevRet>=BONUS_TRIGGER) expectedBonusPunter=ROTATION[currentEntryWeek-2];
-      else if(prev.bonusReturn!==null&&Number(prev.bonusReturn)>=BONUS_TRIGGER) expectedBonusPunter=prev.bonusPunter;
+function renderEntry() {
+  var weekData = results[currentEntryWeek] || {returns:[null,null,null,null], bonusPunter:null, bonusReturn:null};
+  var expectedBonus = null;
+  if (currentEntryWeek > 1) {
+    var prev = results[currentEntryWeek - 1];
+    if (prev && isComplete(currentEntryWeek - 1)) {
+      var prevRet = prev.returns.reduce(function(a,b) { return a+Number(b); }, 0);
+      if (prevRet >= BONUS_TRIGGER) expectedBonus = ROTATION[currentEntryWeek - 2];
+      else if (prev.bonusReturn !== null && Number(prev.bonusReturn) >= BONUS_TRIGGER) expectedBonus = prev.bonusPunter;
     }
   }
-  const complete=isComplete(currentEntryWeek);
-  const totalReturn=complete?weekData.returns.reduce((a,b)=>a+Number(b),0):null;
-  const hasBonus=expectedBonusPunter!==null;
-  const bonusRet=weekData.bonusReturn;
-  const bonusComplete=!hasBonus||(bonusRet!==null&&bonusRet!==undefined&&bonusRet!=="");
-  const allComplete=complete&&bonusComplete;
-  const bankedThisWeek=allComplete?calcBanked(currentEntryWeek):null;
+  var complete = isComplete(currentEntryWeek);
+  var totalReturn = complete ? weekData.returns.reduce(function(a,b) { return a+Number(b); }, 0) : null;
+  var hasBonus = expectedBonus !== null;
+  var bonusRet = weekData.bonusReturn;
+  var bonusComplete = !hasBonus || (bonusRet !== null && bonusRet !== undefined && bonusRet !== "");
+  var allComplete = complete && bonusComplete;
+  var bankedThisWeek = allComplete ? calcBanked(currentEntryWeek) : null;
 
-  const viewOnlyBanner=!isAdmin?`<div class="view-only-banner">
-    <span style="font-size:18px">👁</span>
-    <div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13px;color:#F5A623">VIEW ONLY</div>
-      <div style="font-size:11px;color:#6B8CA8">Only Matt can enter results</div>
-    </div>
-  </div>`:"";
+  var html = "";
 
-  document.getElementById("tab-entry").innerHTML=`
-    ${viewOnlyBanner}
-    <div class="week-selector">
-      <div class="section-title" style="margin-bottom:10px">Select Week</div>
-      <div class="week-nav">
-        <button class="week-btn" onclick="changeWeek(-1)">‹</button>
-        <div style="flex:1;text-align:center">
-          <div class="week-num-big">WK ${currentEntryWeek}</div>
-          <div class="week-date-txt">${DATES[currentEntryWeek-1]}</div>
-        </div>
-        <button class="week-btn" onclick="changeWeek(1)">›</button>
-      </div>
-      <div style="text-align:center">
-        <div class="punter-badge">
-          <span style="font-size:11px;color:#6B8CA8">Punter:</span>
-          <span style="font-size:14px;font-weight:700;color:#F5A623;font-family:'Barlow Condensed',sans-serif">${ROTATION[currentEntryWeek-1]}</span>
-        </div>
-        ${hasBonus?`<div style="display:inline-flex;align-items:center;gap:6px;background:#1C1A00;border-radius:20px;padding:5px 14px;margin-top:6px;border:1px solid #F5A623">
-          <span style="font-size:11px;color:#F5A623">⚡ Bonus:</span>
-          <span style="font-size:14px;font-weight:700;color:#F5A623;font-family:'Barlow Condensed',sans-serif">${expectedBonusPunter}</span>
-        </div>`:""}
-      </div>
-    </div>
+  // Week selector
+  html += '<div class="week-selector">';
+  html += '<div class="section-title" style="margin-bottom:10px">Select Week</div>';
+  html += '<div class="week-nav">';
+  html += '<button class="week-btn" onclick="changeWeek(-1)">‹</button>';
+  html += '<div style="flex:1;text-align:center"><div class="week-num-big">WK ' + currentEntryWeek + '</div><div class="week-date-txt">' + DATES[currentEntryWeek-1] + '</div></div>';
+  html += '<button class="week-btn" onclick="changeWeek(1)">›</button>';
+  html += '</div>';
+  html += '<div style="text-align:center"><div class="punter-badge"><span style="font-size:11px;color:#6B8CA8">Punter:</span><span style="font-size:14px;font-weight:700;color:#F5A623;font-family:\'Barlow Condensed\',sans-serif">' + ROTATION[currentEntryWeek-1] + '</span></div>';
+  if (hasBonus) {
+    html += '<div style="display:inline-flex;align-items:center;gap:6px;background:#1C1A00;border-radius:20px;padding:5px 14px;margin-top:6px;border:1px solid #F5A623"><span style="font-size:11px;color:#F5A623">⚡ Bonus:</span><span style="font-size:14px;font-weight:700;color:#F5A623;font-family:\'Barlow Condensed\',sans-serif">' + expectedBonus + '</span></div>';
+  }
+  html += '</div></div>';
 
-    <div class="section-title">💰 Returns ($200 bet → how much returned?)</div>
-    <div class="input-grid">
-      ${PUNTERS.map((name,pi)=>{
-        const val=weekData.returns[pi];
-        const hasVal=val!==null&&val!==undefined&&val!=="";
-        const isP=hasVal&&Number(val)>POOL;
-        return`<div class="input-card">
-          <div class="input-name">${name}</div>
-          <div class="input-wrap">
-            <span class="input-dollar">$</span>
-            <input type="number" class="input-field ${hasVal?(isP?"profit":"loss"):""}"
-              id="input-${pi}" placeholder="0.00" value="${hasVal?Number(val):""}"
-              step="0.01" min="0" inputmode="decimal"
-              oninput="updateVal(${pi},this.value)"
-              ${!isAdmin?"disabled":""}>
-          </div>
-          <div class="input-pnl ${hasVal?(isP?"profit":"loss"):""}" id="pnl-${pi}">
-            ${hasVal?(isP?`+$${(Number(val)-POOL).toFixed(2)} ✅`:`-$${(POOL-Number(val)).toFixed(2)} ❌`):""}
-          </div>
-        </div>`;
-      }).join("")}
-    </div>
+  // Input grid
+  html += '<div class="section-title">💰 Returns ($200 bet → how much returned?)</div>';
+  html += '<div class="input-grid">';
+  PUNTERS.forEach(function(name, pi) {
+    var val = weekData.returns[pi];
+    var hasVal = val !== null && val !== undefined && val !== "";
+    var isP = hasVal && Number(val) > POOL;
+    html += '<div class="input-card">';
+    html += '<div class="input-name">' + name + '</div>';
+    html += '<div class="input-wrap"><span class="input-dollar">$</span>';
+    html += '<input type="number" class="input-field ' + (hasVal ? (isP ? "profit" : "loss") : "") + '" id="input-' + pi + '" placeholder="0.00" value="' + (hasVal ? Number(val) : "") + '" step="0.01" min="0" inputmode="decimal" oninput="updateVal(' + pi + ',this.value)">';
+    html += '</div>';
+    html += '<div class="input-pnl ' + (hasVal ? (isP ? "profit" : "loss") : "") + '" id="pnl-' + pi + '">' + (hasVal ? (isP ? "+$" + (Number(val)-POOL).toFixed(2) + " ✅" : "-$" + (POOL-Number(val)).toFixed(2) + " ❌") : "") + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
 
-    ${hasBonus?`
-    <div class="section-title">⚡ Bonus Return (${expectedBonusPunter} — $200 bet)</div>
-    <div style="margin-bottom:14px">
-      <div class="input-card bonus">
-        <div class="input-name bonus">⚡ ${expectedBonusPunter} BONUS BET</div>
-        <div class="input-wrap">
-          <span class="input-dollar">$</span>
-          <input type="number" class="input-field ${bonusRet!==null&&bonusRet!==undefined&&bonusRet!==""?(Number(bonusRet)>POOL?"profit":"loss"):""}"
-            id="input-bonus" placeholder="0.00" value="${bonusRet!==null&&bonusRet!==undefined&&bonusRet!==""?Number(bonusRet):""}"
-            step="0.01" min="0" inputmode="decimal"
-            oninput="updateBonusVal(this.value,'${expectedBonusPunter}')"
-            ${!isAdmin?"disabled":""}>
-        </div>
-        <div class="input-pnl ${bonusRet!==null&&bonusRet!==undefined&&bonusRet!==""?(Number(bonusRet)>POOL?"profit":"loss"):""}" id="pnl-bonus">
-          ${bonusRet!==null&&bonusRet!==undefined&&bonusRet!==""?(Number(bonusRet)>POOL?`+$${(Number(bonusRet)-POOL).toFixed(2)} ✅`:`-$${(POOL-Number(bonusRet)).toFixed(2)} ❌`):""}
-        </div>
-      </div>
-    </div>`:""}
+  // Bonus input
+  if (hasBonus) {
+    var bHasVal = bonusRet !== null && bonusRet !== undefined && bonusRet !== "";
+    var bIsP = bHasVal && Number(bonusRet) > POOL;
+    html += '<div class="section-title">⚡ Bonus Return (' + expectedBonus + ' — $200 bet)</div>';
+    html += '<div style="margin-bottom:14px"><div class="input-card bonus">';
+    html += '<div class="input-name bonus">⚡ ' + expectedBonus + ' BONUS BET</div>';
+    html += '<div class="input-wrap"><span class="input-dollar">$</span>';
+    html += '<input type="number" class="input-field ' + (bHasVal ? (bIsP ? "profit" : "loss") : "") + '" id="input-bonus" placeholder="0.00" value="' + (bHasVal ? Number(bonusRet) : "") + '" step="0.01" min="0" inputmode="decimal" oninput="updateBonusVal(this.value,\'' + expectedBonus + '\')">';
+    html += '</div>';
+    html += '<div class="input-pnl ' + (bHasVal ? (bIsP ? "profit" : "loss") : "") + '" id="pnl-bonus">' + (bHasVal ? (bIsP ? "+$" + (Number(bonusRet)-POOL).toFixed(2) + " ✅" : "-$" + (POOL-Number(bonusRet)).toFixed(2) + " ❌") : "") + '</div>';
+    html += '</div></div>';
+  }
 
-    ${allComplete?`
-    <div class="result-box" style="background:${bankedThisWeek>AUTO_BANK?"#1A4A2A":"#1A2E42"};border-color:${bankedThisWeek>AUTO_BANK?"#2ECC71":"#E8751A"}">
-      <div style="font-size:11px;font-weight:600;letter-spacing:1px;color:#6B8CA8;margin-bottom:4px">WEEK ${currentEntryWeek} — TRIP KITTY</div>
-      <div class="result-big profit">$${Math.round(bankedThisWeek).toLocaleString()}</div>
-      <div style="font-size:12px;margin-top:4px;color:#6B8CA8">banked this week</div>
-      <div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap">
-        <span class="tag tag-muted">$200 guaranteed</span>
-        ${bankedThisWeek>AUTO_BANK?`<span class="tag tag-green">+$${Math.round(bankedThisWeek-AUTO_BANK).toLocaleString()} winnings</span>`:""}
-      </div>
-      ${totalReturn>=BONUS_TRIGGER?`<div class="bonus-alert">
-        <div style="color:#F5A623;font-weight:800;font-size:14px;font-family:'Barlow Condensed',sans-serif">⚡ BONUS TRIGGERED!</div>
-        <div style="color:#D9E8F5;font-size:11px;margin-top:2px">${ROTATION[currentEntryWeek-1]} bets again next week!</div>
-      </div>`:""}
-      ${hasBonus&&bonusRet!==null&&Number(bonusRet)>=BONUS_TRIGGER?`<div class="bonus-alert" style="margin-top:6px">
-        <div style="color:#F5A623;font-weight:800;font-size:14px;font-family:'Barlow Condensed',sans-serif">⚡ BONUS CONTINUES!</div>
-        <div style="color:#D9E8F5;font-size:11px;margin-top:2px">${expectedBonusPunter} bets AGAIN next week!</div>
-      </div>`:""}
-    </div>`:""}
+  // Result box
+  if (allComplete && bankedThisWeek !== null) {
+    html += '<div class="result-box" style="background:' + (bankedThisWeek > AUTO_BANK ? "#1A4A2A" : "#1A2E42") + ';border-color:' + (bankedThisWeek > AUTO_BANK ? "#2ECC71" : "#E8751A") + '">';
+    html += '<div style="font-size:11px;font-weight:600;letter-spacing:1px;color:#6B8CA8;margin-bottom:4px">WEEK ' + currentEntryWeek + ' — TRIP KITTY</div>';
+    html += '<div class="result-big profit">$' + Math.round(bankedThisWeek).toLocaleString() + '</div>';
+    html += '<div style="font-size:12px;margin-top:4px;color:#6B8CA8">banked this week</div>';
+    html += '<div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap"><span class="tag tag-muted">$200 guaranteed</span>';
+    if (bankedThisWeek > AUTO_BANK) html += '<span class="tag tag-green">+$' + Math.round(bankedThisWeek - AUTO_BANK).toLocaleString() + ' winnings</span>';
+    html += '</div>';
+    if (totalReturn >= BONUS_TRIGGER) {
+      html += '<div class="bonus-alert"><div style="color:#F5A623;font-weight:800;font-size:14px;font-family:\'Barlow Condensed\',sans-serif">⚡ BONUS TRIGGERED!</div><div style="color:#D9E8F5;font-size:11px;margin-top:2px">' + ROTATION[currentEntryWeek-1] + ' bets again next week!</div></div>';
+    }
+    if (hasBonus && bonusRet !== null && Number(bonusRet) >= BONUS_TRIGGER) {
+      html += '<div class="bonus-alert" style="margin-top:6px"><div style="color:#F5A623;font-weight:800;font-size:14px;font-family:\'Barlow Condensed\',sans-serif">⚡ BONUS CONTINUES!</div><div style="color:#D9E8F5;font-size:11px;margin-top:2px">' + expectedBonus + ' bets AGAIN next week!</div></div>';
+    }
+    html += '</div>';
+  }
 
-    ${isAdmin?`
-    <button class="save-btn" onclick="saveWeek()">💾 SAVE WEEK ${currentEntryWeek}</button>
-    <button class="clear-btn" onclick="clearWeek()">Clear Week ${currentEntryWeek}</button>`
-    :`<div style="text-align:center;color:#6B8CA8;font-size:12px;padding:10px;font-style:italic">Contact Matt to update results</div>`}
+  html += '<button class="save-btn" onclick="saveWeek()">💾 SAVE WEEK ' + currentEntryWeek + '</button>';
+  html += '<button class="clear-btn" onclick="clearWeek()">Clear Week ' + currentEntryWeek + '</button>';
 
-    <div class="divider"></div>
-    <div class="section-title">Season Overview</div>
-    <div class="table-wrap">
-      <div class="table-head" style="grid-template-columns:28px 48px 1fr 60px 62px">
-        <div class="table-head-cell">WK</div><div class="table-head-cell">DATE</div>
-        <div class="table-head-cell" style="text-align:left">WHO</div>
-        <div class="table-head-cell">RETURN</div><div class="table-head-cell">BANKED</div>
-      </div>
-      ${Array.from({length:WEEKS},(_,i)=>i+1).map(wk=>{
-        const w=results[wk];
-        const comp=isComplete(wk);
-        const ret=comp?results[wk].returns.reduce((a,b)=>a+Number(b),0):null;
-        const banked=comp?calcBanked(wk):null;
-        const isCur=wk===currentEntryWeek;
-        return`<div class="table-row" onclick="jumpToWeek(${wk})"
-          style="grid-template-columns:28px 48px 1fr 60px 62px;cursor:pointer;${isCur?"outline:2px solid #E8751A;outline-offset:-2px;":""}">
-          <div class="wk-badge">${wk}</div>
-          <div style="font-size:10px;color:#D9E8F5;text-align:center">${DATES[wk-1]}</div>
-          <div style="font-size:11px;font-weight:600;color:${isCur?"#F5A623":"#D9E8F5"}">${ROTATION[wk-1]}</div>
-          <div style="font-size:11px;text-align:center">${ret!==null?fmt$(ret):"—"}</div>
-          <div style="font-size:12px;font-weight:700;text-align:center" class="${banked!==null?"profit":""}">${banked!==null?"$"+Math.round(banked).toLocaleString():"—"}</div>
-        </div>`;
-      }).join("")}
-    </div>`;
+  // Overview
+  html += '<div class="divider"></div><div class="section-title">Season Overview</div>';
+  html += '<div class="table-wrap"><div class="table-head" style="grid-template-columns:28px 48px 1fr 60px 62px">';
+  html += '<div class="table-head-cell">WK</div><div class="table-head-cell">DATE</div><div class="table-head-cell" style="text-align:left">WHO</div><div class="table-head-cell">RETURN</div><div class="table-head-cell">BANKED</div>';
+  html += '</div>';
+  for (var wk = 1; wk <= WEEKS; wk++) {
+    var w = results[wk];
+    var comp = isComplete(wk);
+    var ret = comp ? results[wk].returns.reduce(function(a,b) { return a+Number(b); }, 0) : null;
+    var banked = comp ? calcBanked(wk) : null;
+    var isCur = wk === currentEntryWeek;
+    html += '<div class="table-row" onclick="jumpToWeek(' + wk + ')" style="grid-template-columns:28px 48px 1fr 60px 62px;' + (isCur ? "outline:2px solid #E8751A;outline-offset:-2px;" : "") + '">';
+    html += '<div class="wk-badge">' + wk + '</div>';
+    html += '<div style="font-size:10px;color:#D9E8F5;text-align:center">' + DATES[wk-1] + '</div>';
+    html += '<div style="font-size:11px;font-weight:600;color:' + (isCur ? "#F5A623" : "#D9E8F5") + '">' + ROTATION[wk-1] + '</div>';
+    html += '<div style="font-size:11px;text-align:center">' + (ret !== null ? fmt$(ret) : "—") + '</div>';
+    html += '<div style="font-size:12px;font-weight:700;text-align:center' + (banked !== null ? ';color:#2ECC71" class="profit"' : '"') + '>' + (banked !== null ? "$" + Math.round(banked).toLocaleString() : "—") + '</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+
+  document.getElementById("tab-entry").innerHTML = html;
 }
 
-function updateVal(pi,val){
-  if(!isAdmin)return;
-  if(!results[currentEntryWeek]) results[currentEntryWeek]={returns:[null,null,null,null],bonusPunter:null,bonusReturn:null};
-  results[currentEntryWeek].returns[pi]=val===""?null:Number(val);
-  const input=document.getElementById("input-"+pi);
-  const pnlEl=document.getElementById("pnl-"+pi);
-  const hasVal=val!=="";
-  const isP=hasVal&&Number(val)>POOL;
-  if(input) input.className="input-field "+(hasVal?(isP?"profit":"loss"):"");
-  if(pnlEl){pnlEl.className="input-pnl "+(hasVal?(isP?"profit":"loss"):"");
-    pnlEl.textContent=hasVal?(isP?`+$${(Number(val)-POOL).toFixed(2)} ✅`:`-$${(POOL-Number(val)).toFixed(2)} ❌`):"";}
+function updateVal(pi, val) {
+  if (!results[currentEntryWeek]) results[currentEntryWeek] = {returns:[null,null,null,null], bonusPunter:null, bonusReturn:null};
+  results[currentEntryWeek].returns[pi] = val === "" ? null : Number(val);
+  var input = document.getElementById("input-" + pi);
+  var pnlEl = document.getElementById("pnl-" + pi);
+  var hasVal = val !== "";
+  var isP = hasVal && Number(val) > POOL;
+  if (input) input.className = "input-field " + (hasVal ? (isP ? "profit" : "loss") : "");
+  if (pnlEl) {
+    pnlEl.className = "input-pnl " + (hasVal ? (isP ? "profit" : "loss") : "");
+    pnlEl.textContent = hasVal ? (isP ? "+$" + (Number(val)-POOL).toFixed(2) + " ✅" : "-$" + (POOL-Number(val)).toFixed(2) + " ❌") : "";
+  }
 }
 
-function updateBonusVal(val,punterName){
-  if(!isAdmin)return;
-  if(!results[currentEntryWeek]) results[currentEntryWeek]={returns:[null,null,null,null],bonusPunter:null,bonusReturn:null};
-  results[currentEntryWeek].bonusPunter=punterName;
-  results[currentEntryWeek].bonusReturn=val===""?null:Number(val);
-  const input=document.getElementById("input-bonus");
-  const pnlEl=document.getElementById("pnl-bonus");
-  const hasVal=val!=="";
-  const isP=hasVal&&Number(val)>POOL;
-  if(input) input.className="input-field "+(hasVal?(isP?"profit":"loss"):"");
-  if(pnlEl){pnlEl.className="input-pnl "+(hasVal?(isP?"profit":"loss"):"");
-    pnlEl.textContent=hasVal?(isP?`+$${(Number(val)-POOL).toFixed(2)} ✅`:`-$${(POOL-Number(val)).toFixed(2)} ❌`):"";}
+function updateBonusVal(val, punterName) {
+  if (!results[currentEntryWeek]) results[currentEntryWeek] = {returns:[null,null,null,null], bonusPunter:null, bonusReturn:null};
+  results[currentEntryWeek].bonusPunter = punterName;
+  results[currentEntryWeek].bonusReturn = val === "" ? null : Number(val);
+  var input = document.getElementById("input-bonus");
+  var pnlEl = document.getElementById("pnl-bonus");
+  var hasVal = val !== "";
+  var isP = hasVal && Number(val) > POOL;
+  if (input) input.className = "input-field " + (hasVal ? (isP ? "profit" : "loss") : "");
+  if (pnlEl) {
+    pnlEl.className = "input-pnl " + (hasVal ? (isP ? "profit" : "loss") : "");
+    pnlEl.textContent = hasVal ? (isP ? "+$" + (Number(val)-POOL).toFixed(2) + " ✅" : "-$" + (POOL-Number(val)).toFixed(2) + " ❌") : "";
+  }
 }
 
-async function saveWeek(){ await saveWeekToDB(currentEntryWeek); }
+function saveWeek() { saveWeekToDB(currentEntryWeek); }
 
-function changeWeek(dir){
-  currentEntryWeek=Math.max(1,Math.min(WEEKS,currentEntryWeek+dir));
-  renderEntry(); document.getElementById("tab-entry").scrollTop=0;
+function changeWeek(dir) {
+  currentEntryWeek = Math.max(1, Math.min(WEEKS, currentEntryWeek + dir));
+  renderEntry();
+  document.getElementById("tab-entry").scrollTop = 0;
 }
-function jumpToWeek(wk){ currentEntryWeek=wk; renderEntry(); document.getElementById("tab-entry").scrollTop=0; }
-async function clearWeek(){ if(!isAdmin)return; delete results[currentEntryWeek]; await deleteWeekFromDB(currentEntryWeek); renderEntry(); }
 
-// ── LEADERBOARD ───────────────────────────────────────────────────
-function renderLeaderboard(){
-  const stats=rankStats(calcStats()).sort((a,b)=>a.rank-b.rank);
-  const wp=getWeeksPlayed();
-  const totalBanked=getTotalBanked();
-  const totalPnl=stats.reduce((a,s)=>a+s.pnl,0);
-  const colors=["#1C1400","#132233","#132233","#200000"];
-  const borders=["#F5A623","#1A2E42","#1A2E42","#E74C3C"];
-  document.getElementById("tab-leaderboard").innerHTML=`
-    <div class="lb-grid">
-      ${stats.map((s,i)=>`
-        <div class="lb-card" style="background:${colors[i]};border-color:${borders[i]}">
-          <div style="font-size:22px;margin-bottom:4px">${MEDALS[i]}</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:${i===0?"#F5A623":i===3&&s.weeks>0?"#E74C3C":"#fff"}">${s.name}</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px;line-height:1.1;margin-top:4px" class="${s.weeks>0?(s.pnl>=0?"profit":"loss"):""}">${s.weeks>0?fmt$(s.pnl,true):"—"}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">
-            <span class="tag tag-muted">${s.weeks} wks</span>
-            <span class="tag tag-amber">${fmtPct(s.winRate)}</span>
-          </div>
-          ${i===3&&s.weeks>0?'<div style="font-size:9px;color:#E74C3C;font-weight:700;margin-top:6px">ORGANISING BRISBANE?</div>':""}
-        </div>`).join("")}
-    </div>
-    <div class="divider"></div>
-    <div class="section-title">Full Stats</div>
-    ${stats.map(s=>`
-      <div style="background:#132233;border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid ${s.rank===1?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#1A2E42"}">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:20px;color:${s.rank===1?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#6B8CA8"}">${s.rank}</span>
-            <span style="font-weight:700;font-size:17px">${s.name}</span>
-          </div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:24px" class="${s.weeks>0?(s.pnl>=0?"profit":"loss"):""}">${s.weeks>0?fmt$(s.pnl,true):"Not started"}</div>
-        </div>
-        <div class="mini-stats">
-          <div class="mini-stat"><div class="mini-stat-label">Bets</div><div class="mini-stat-value">${s.weeks}</div></div>
-          <div class="mini-stat"><div class="mini-stat-label">Staked</div><div class="mini-stat-value muted">${fmt$(s.staked)}</div></div>
-          <div class="mini-stat"><div class="mini-stat-label">Best</div><div class="mini-stat-value ${s.best>=0?"profit":"loss"}">${fmt$(s.best,true)}</div></div>
-          <div class="mini-stat"><div class="mini-stat-label">Win%</div><div class="mini-stat-value amber">${fmtPct(s.winRate)}</div></div>
-        </div>
-      </div>`).join("")}
-    <div class="divider"></div>
-    <div class="section-title">🎒 Trip Kitty</div>
-    <div style="background:#1A2E42;border-radius:12px;padding:14px;border:1px solid #2ECC7144">
-      ${[["Total banked","$"+Math.round(totalBanked).toLocaleString(),"#2ECC71"],
-         ["Guaranteed min","$"+(wp*AUTO_BANK).toLocaleString(),"#F5A623"],
-         ["Winnings banked","$"+Math.round(Math.max(0,totalBanked-wp*AUTO_BANK)).toLocaleString(),"#2ECC71"],
-         ["Still to come","$"+((WEEKS-wp)*AUTO_BANK).toLocaleString()+" min","#6B8CA8"]].map(([l,v,c],i,a)=>`
-        <div style="display:flex;justify-content:space-between;padding:7px 0;${i<a.length-1?"border-bottom:1px solid #132233":""}">
-          <span style="color:#6B8CA8;font-size:12px">${l}</span>
-          <span style="color:${c};font-weight:700;font-size:13px">${v}</span>
-        </div>`).join("")}
-      <div class="progress-wrap" style="margin-top:10px">
-        <div class="progress-bar" style="width:${Math.min(100,(totalBanked/11200)*100)}%"></div>
-      </div>
-    </div>`;
+function jumpToWeek(wk) {
+  currentEntryWeek = wk;
+  renderEntry();
+  document.getElementById("tab-entry").scrollTop = 0;
+}
+
+function clearWeek() {
+  delete results[currentEntryWeek];
+  deleteWeekFromDB(currentEntryWeek);
+  renderEntry();
+}
+
+// ── LEADERBOARD ──────────────────────────────────────────────────
+function renderLeaderboard() {
+  var stats = rankStats(calcStats()).sort(function(a,b) { return a.rank - b.rank; });
+  var wp = getWeeksPlayed();
+  var totalBanked = getTotalBanked();
+  var colors = ["#1C1400","#132233","#132233","#200000"];
+  var borders = ["#F5A623","#1A2E42","#1A2E42","#E74C3C"];
+
+  var html = '<div class="lb-grid">';
+  stats.forEach(function(s, i) {
+    html += '<div class="lb-card" style="background:' + colors[i] + ';border-color:' + borders[i] + '">';
+    html += '<div style="font-size:22px;margin-bottom:4px">' + MEDALS[i] + '</div>';
+    html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:20px;color:' + (i===0?"#F5A623":i===3&&s.weeks>0?"#E74C3C":"#fff") + '">' + s.name + '</div>';
+    html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:26px;line-height:1.1;margin-top:4px" class="' + (s.weeks>0?(s.pnl>=0?"profit":"loss"):"") + '">' + (s.weeks>0?fmt$(s.pnl,true):"—") + '</div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px"><span class="tag tag-muted">' + s.weeks + ' wks</span><span class="tag tag-amber">' + fmtPct(s.winRate) + '</span></div>';
+    if (i === 3 && s.weeks > 0) html += '<div style="font-size:9px;color:#E74C3C;font-weight:700;margin-top:6px">ORGANISING BRISBANE?</div>';
+    html += '</div>';
+  });
+  html += '</div><div class="divider"></div><div class="section-title">Full Stats</div>';
+
+  stats.forEach(function(s) {
+    html += '<div style="background:#132233;border-radius:10px;padding:14px;margin-bottom:8px;border:1px solid ' + (s.rank===1?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#1A2E42") + '">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+    html += '<div style="display:flex;align-items:center;gap:8px"><span style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:20px;color:' + (s.rank===1?"#F5A623":s.rank===4&&s.weeks>0?"#E74C3C":"#6B8CA8") + '">' + s.rank + '</span><span style="font-weight:700;font-size:17px">' + s.name + '</span></div>';
+    html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:24px" class="' + (s.weeks>0?(s.pnl>=0?"profit":"loss"):"") + '">' + (s.weeks>0?fmt$(s.pnl,true):"Not started") + '</div>';
+    html += '</div><div class="mini-stats">';
+    html += '<div class="mini-stat"><div class="mini-stat-label">Bets</div><div class="mini-stat-value">' + s.weeks + '</div></div>';
+    html += '<div class="mini-stat"><div class="mini-stat-label">Staked</div><div class="mini-stat-value muted">' + fmt$(s.staked) + '</div></div>';
+    html += '<div class="mini-stat"><div class="mini-stat-label">Best</div><div class="mini-stat-value ' + (s.best>=0?"profit":"loss") + '">' + fmt$(s.best,true) + '</div></div>';
+    html += '<div class="mini-stat"><div class="mini-stat-label">Win%</div><div class="mini-stat-value amber">' + fmtPct(s.winRate) + '</div></div>';
+    html += '</div></div>';
+  });
+
+  html += '<div class="divider"></div><div class="section-title">🎒 Trip Kitty</div>';
+  html += '<div style="background:#1A2E42;border-radius:12px;padding:14px;border:1px solid #2ECC7144">';
+  var rows = [
+    ["Total banked", "$" + Math.round(totalBanked).toLocaleString(), "#2ECC71"],
+    ["Guaranteed min", "$" + (wp*200).toLocaleString(), "#F5A623"],
+    ["Winnings banked", "$" + Math.round(Math.max(0, totalBanked - wp*200)).toLocaleString(), "#2ECC71"],
+    ["Still to come", "$" + ((WEEKS-wp)*200).toLocaleString() + " min", "#6B8CA8"]
+  ];
+  rows.forEach(function(r, i) {
+    html += '<div style="display:flex;justify-content:space-between;padding:7px 0;' + (i < rows.length-1 ? "border-bottom:1px solid #132233" : "") + '"><span style="color:#6B8CA8;font-size:12px">' + r[0] + '</span><span style="color:' + r[2] + ';font-weight:700;font-size:13px">' + r[1] + '</span></div>';
+  });
+  html += '<div class="progress-wrap" style="margin-top:10px"><div class="progress-bar" style="width:' + Math.min(100, (totalBanked/11200)*100) + '%"></div></div>';
+  html += '</div>';
+
+  document.getElementById("tab-leaderboard").innerHTML = html;
 }
 
 // ── WHATSAPP ─────────────────────────────────────────────────────
-function buildMessage(){
-  const stats=rankStats(calcStats()).sort((a,b)=>a.rank-b.rank);
-  const w=results[currentWAWeek];
-  const complete=isComplete(currentWAWeek);
-  const totalReturn=complete?w.returns.reduce((a,b)=>a+Number(b),0):null;
-  const banked=complete?calcBanked(currentWAWeek):null;
-  const totalBanked=getTotalBanked();
-  const lines=[`🏉 PUNTERS CLUB — WEEK ${currentWAWeek} 🏉`,`NRL PREMIERSHIP 2026`,
-    `━━━━━━━━━━━━━━━━━━`,`📅 ${DATES[currentWAWeek-1]}`,`🎯 Punter: ${ROTATION[currentWAWeek-1]}`];
-  if(w?.bonusPunter) lines.push(`⚡ Bonus: ${w.bonusPunter}`);
-  lines.push(`━━━━━━━━━━━━━━━━━━`,`💰 RETURNS:`);
-  PUNTERS.forEach((name,i)=>{
-    const val=w?.returns[i];
-    const hasVal=val!==null&&val!==undefined&&val!=="";
-    lines.push(`  ${name}: ${hasVal?`$${Number(val).toFixed(2)} ${Number(val)>POOL?"✅":"❌"}`:"—"}`);
+function buildMessage() {
+  var stats = rankStats(calcStats()).sort(function(a,b) { return a.rank - b.rank; });
+  var w = results[currentWAWeek];
+  var complete = isComplete(currentWAWeek);
+  var totalReturn = complete ? w.returns.reduce(function(a,b) { return a+Number(b); }, 0) : null;
+  var banked = complete ? calcBanked(currentWAWeek) : null;
+  var totalBanked = getTotalBanked();
+  var lines = [
+    "🏉 PUNTERS CLUB — WEEK " + currentWAWeek + " 🏉",
+    "NRL PREMIERSHIP 2026",
+    "━━━━━━━━━━━━━━━━━━",
+    "📅 " + DATES[currentWAWeek-1],
+    "🎯 Punter: " + ROTATION[currentWAWeek-1]
+  ];
+  if (w && w.bonusPunter) lines.push("⚡ Bonus: " + w.bonusPunter);
+  lines.push("━━━━━━━━━━━━━━━━━━", "💰 RETURNS:");
+  PUNTERS.forEach(function(name, i) {
+    var val = w ? w.returns[i] : null;
+    var hasVal = val !== null && val !== undefined && val !== "";
+    lines.push("  " + name + ": " + (hasVal ? "$" + Number(val).toFixed(2) + " " + (Number(val) > POOL ? "✅" : "❌") : "—"));
   });
-  if(w?.bonusPunter&&w?.bonusReturn!==null&&w?.bonusReturn!==undefined&&w?.bonusReturn!=="")
-    lines.push(`  ⚡ ${w.bonusPunter}: $${Number(w.bonusReturn).toFixed(2)} ${Number(w.bonusReturn)>POOL?"✅":"❌"}`);
-  lines.push(`━━━━━━━━━━━━━━━━━━`);
-  if(totalReturn!==null){
-    lines.push(`📊 Return: $${totalReturn.toFixed(2)}`);
-    lines.push(`🎒 Banked this week: $${Math.round(banked).toLocaleString()}`);
-    if(totalReturn>=BONUS_TRIGGER) lines.push(`⚡ ${ROTATION[currentWAWeek-1]} BETS AGAIN next week!`);
+  if (w && w.bonusPunter && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "") {
+    lines.push("  ⚡ " + w.bonusPunter + ": $" + Number(w.bonusReturn).toFixed(2) + " " + (Number(w.bonusReturn) > POOL ? "✅" : "❌"));
   }
-  lines.push(`━━━━━━━━━━━━━━━━━━`,`🏆 STANDINGS:`);
-  stats.forEach(s=>{
-    const pre=s.rank===4?"  ☠️":`  ${s.rank}.`;
-    const p=s.weeks>0?` (${s.pnl>=0?"+":""}$${s.pnl.toFixed(2)})`:"";
-    lines.push(`${pre} ${s.name}${p}${s.rank===4&&s.weeks>0?" 👀":""}`);
+  lines.push("━━━━━━━━━━━━━━━━━━");
+  if (totalReturn !== null) {
+    lines.push("📊 Return: $" + totalReturn.toFixed(2));
+    lines.push("🎒 Banked this week: $" + Math.round(banked).toLocaleString());
+    if (totalReturn >= BONUS_TRIGGER) lines.push("⚡ " + ROTATION[currentWAWeek-1] + " BETS AGAIN next week!");
+  }
+  lines.push("━━━━━━━━━━━━━━━━━━", "🏆 STANDINGS:");
+  stats.forEach(function(s) {
+    var pre = s.rank === 4 ? "  ☠️" : "  " + s.rank + ".";
+    var p = s.weeks > 0 ? " (" + (s.pnl >= 0 ? "+" : "") + "$" + s.pnl.toFixed(2) + ")" : "";
+    lines.push(pre + " " + s.name + p + (s.rank === 4 && s.weeks > 0 ? " 👀" : ""));
   });
-  lines.push(`━━━━━━━━━━━━━━━━━━`);
-  lines.push(`🎒 Trip kitty: $${Math.round(totalBanked).toLocaleString()}`);
-  lines.push(`📆 ${WEEKS-currentWAWeek} weeks to Brisbane! 🍺🏉`);
+  lines.push("━━━━━━━━━━━━━━━━━━");
+  lines.push("🎒 Trip kitty: $" + Math.round(totalBanked).toLocaleString());
+  lines.push("📆 " + (WEEKS - currentWAWeek) + " weeks to Brisbane! 🍺🏉");
   return lines.join("\n");
 }
 
-function renderWhatsApp(){
-  const complete=isComplete(currentWAWeek);
-  document.getElementById("tab-whatsapp").innerHTML=`
-    <div class="week-selector">
-      <div class="section-title" style="margin-bottom:10px">Select Week to Share</div>
-      <div class="week-nav">
-        <button class="week-btn" onclick="changeWAWeek(-1)">‹</button>
-        <div style="flex:1;text-align:center">
-          <div class="week-num-big">WK ${currentWAWeek}</div>
-          <div class="week-date-txt">${complete?"✅ Results entered":"⏳ No results yet"}</div>
-        </div>
-        <button class="week-btn" onclick="changeWAWeek(1)">›</button>
-      </div>
-    </div>
-    <button class="copy-btn" id="copy-btn" onclick="copyMessage()">📋 COPY MESSAGE</button>
-    <div class="section-title">Message Preview</div>
-    <div class="wa-preview">${buildMessage()}</div>
-    <div class="tip-box">
-      <div style="font-size:11px;color:#6B8CA8;line-height:1.5">💡 Enter results → Save → come here → Copy → paste into WhatsApp.</div>
-    </div>`;
+function renderWhatsApp() {
+  var complete = isComplete(currentWAWeek);
+  var html = '<div class="week-selector">';
+  html += '<div class="section-title" style="margin-bottom:10px">Select Week to Share</div>';
+  html += '<div class="week-nav"><button class="week-btn" onclick="changeWAWeek(-1)">‹</button>';
+  html += '<div style="flex:1;text-align:center"><div class="week-num-big">WK ' + currentWAWeek + '</div>';
+  html += '<div class="week-date-txt">' + (complete ? "✅ Results entered" : "⏳ No results yet") + '</div></div>';
+  html += '<button class="week-btn" onclick="changeWAWeek(1)">›</button></div></div>';
+  html += '<button class="copy-btn" id="copy-btn" onclick="copyMessage()">📋 COPY MESSAGE</button>';
+  html += '<div class="section-title">Message Preview</div>';
+  html += '<div class="wa-preview">' + buildMessage() + '</div>';
+  html += '<div class="tip-box"><div style="font-size:11px;color:#6B8CA8;line-height:1.5">💡 Enter results → Save → come here → Copy → paste into WhatsApp.</div></div>';
+  document.getElementById("tab-whatsapp").innerHTML = html;
 }
 
-function changeWAWeek(dir){
-  currentWAWeek=Math.max(1,Math.min(WEEKS,currentWAWeek+dir));
+function changeWAWeek(dir) {
+  currentWAWeek = Math.max(1, Math.min(WEEKS, currentWAWeek + dir));
   renderWhatsApp();
 }
 
-function copyMessage(){
-  const msg=buildMessage();
-  const btn=document.getElementById("copy-btn");
-  navigator.clipboard.writeText(msg).then(()=>{
-    btn.textContent="✅ COPIED! PASTE INTO WHATSAPP"; btn.classList.add("copied");
-    setTimeout(()=>{btn.textContent="📋 COPY MESSAGE";btn.classList.remove("copied");},2500);
-  }).catch(()=>{
-    const ta=document.createElement("textarea");
-    ta.value=msg;ta.style.cssText="position:fixed;opacity:0";
-    document.body.appendChild(ta);ta.focus();ta.select();
-    document.execCommand("copy");document.body.removeChild(ta);
-    btn.textContent="✅ COPIED!";btn.classList.add("copied");
-    setTimeout(()=>{btn.textContent="📋 COPY MESSAGE";btn.classList.remove("copied");},2500);
+function copyMessage() {
+  var msg = buildMessage();
+  var btn = document.getElementById("copy-btn");
+  navigator.clipboard.writeText(msg).then(function() {
+    btn.textContent = "✅ COPIED! PASTE INTO WHATSAPP";
+    btn.classList.add("copied");
+    setTimeout(function() { btn.textContent = "📋 COPY MESSAGE"; btn.classList.remove("copied"); }, 2500);
+  }).catch(function() {
+    var ta = document.createElement("textarea");
+    ta.value = msg; ta.style.cssText = "position:fixed;opacity:0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta);
+    btn.textContent = "✅ COPIED!"; btn.classList.add("copied");
+    setTimeout(function() { btn.textContent = "📋 COPY MESSAGE"; btn.classList.remove("copied"); }, 2500);
   });
 }
 
 // ── RULES ────────────────────────────────────────────────────────
-function renderRules(){
-  const rules=[
-    {icon:"💰",title:"Weekly Contributions",text:`Each punter contributes <span class="rule-highlight">$100 per week</span> — $400 total collected from the group each week.`},
-    {icon:"🎒",title:"Automatic Banking",text:`<span class="rule-highlight">$200 is automatically banked</span> into the trip kitty every week no matter what. The kitty grows by a minimum of $200 per week.`},
-    {icon:"🏉",title:"The Weekly Bet",text:`The remaining <span class="rule-highlight">$200 is given to the Punter-in-Charge</span> to place bets on that week's NRL action.`},
-    {icon:"💵",title:"Where Returns Go",text:`Whatever the punter returns goes <span class="rule-highlight">straight into the trip kitty</span> on top of the guaranteed $200. Every win makes Brisbane bigger!`},
-    {icon:"⚡",title:"The Bonus Rule",text:`If the Punter-in-Charge returns <span class="rule-highlight">$600 or more</span>, they keep <span class="rule-highlight">$200</span> to bet again the following week. The rest gets banked. They keep going as long as they keep hitting $600+!`},
-    {icon:"🔄",title:"Rotation Stays the Same",text:`The rotation <span class="rule-highlight">never changes</span>. On a bonus week both the regular rotation punter AND the bonus punter each bet <span class="rule-highlight">$200 separately</span> — two bets, two chances to win.`},
-    {icon:"🏆",title:"The Leaderboard",text:`Each punter's profitability is tracked across the season. The <span class="rule-highlight">least profitable punter</span> at season end organises the entire Brisbane trip.`},
-    {icon:"✈️",title:"The Trip — What's Included",text:`The organiser arranges: <span class="rule-highlight">return flights</span>, <span class="rule-highlight">accommodation</span> (3 nights), <span class="rule-highlight">NRL Magic Round tickets</span>, <span class="rule-highlight">group dinners</span>, all <span class="rule-highlight">Ubers and transport</span>, plus any extras.`},
-    {icon:"🤝",title:"Group Dividend",text:`If there's a <span class="rule-highlight">substantial win</span> and all four punters agree, a dividend can be taken from the trip kitty. <span class="rule-highlight">Unanimous agreement required.</span>`},
-    {icon:"📅",title:"Season Dates",text:`The season runs from <span class="rule-highlight">April 2026</span> through to <span class="rule-highlight">Magic Round Brisbane, May 2027</span> — 56 weeks total.`},
-    {icon:"🚫",title:"No Side Bets",text:`Pool bets only. <span class="rule-highlight">Personal bets are your own business</span> and don't affect the leaderboard or trip kitty.`},
+function renderRules() {
+  var rules = [
+    {icon:"💰", title:"Weekly Contributions", text:'Each punter contributes <span class="rule-highlight">$100 per week</span> — $400 total collected from the group each week.'},
+    {icon:"🎒", title:"Automatic Banking", text:'<span class="rule-highlight">$200 is automatically banked</span> into the trip kitty every week no matter what. The kitty grows by a minimum of $200 per week.'},
+    {icon:"🏉", title:"The Weekly Bet", text:'The remaining <span class="rule-highlight">$200 is given to the Punter-in-Charge</span> to place bets on that week\'s NRL action.'},
+    {icon:"💵", title:"Where Returns Go", text:'Whatever the punter returns goes <span class="rule-highlight">straight into the trip kitty</span> on top of the guaranteed $200. Every win makes Brisbane bigger!'},
+    {icon:"⚡", title:"The Bonus Rule", text:'If the Punter-in-Charge returns <span class="rule-highlight">$600 or more</span>, they keep <span class="rule-highlight">$200</span> to bet again the following week. The rest gets banked. They keep going as long as they keep hitting $600+!'},
+    {icon:"🔄", title:"Rotation Stays the Same", text:'The rotation <span class="rule-highlight">never changes</span>. On a bonus week both the regular rotation punter AND the bonus punter each bet <span class="rule-highlight">$200 separately</span> — two bets, two chances to win.'},
+    {icon:"🏆", title:"The Leaderboard", text:'Each punter\'s profitability is tracked across the season. The <span class="rule-highlight">least profitable punter</span> at season end organises the entire Brisbane trip.'},
+    {icon:"✈️", title:"The Trip — What\'s Included", text:'The organiser arranges: <span class="rule-highlight">return flights</span>, <span class="rule-highlight">accommodation</span> (3 nights), <span class="rule-highlight">NRL Magic Round tickets</span>, <span class="rule-highlight">group dinners</span>, all <span class="rule-highlight">Ubers and transport</span>, plus any extras.'},
+    {icon:"🤝", title:"Group Dividend", text:'If there\'s a <span class="rule-highlight">substantial win</span> and all four punters agree, a dividend can be taken from the trip kitty. <span class="rule-highlight">Unanimous agreement required.</span>'},
+    {icon:"📅", title:"Season Dates", text:'The season runs from <span class="rule-highlight">April 2026</span> through to <span class="rule-highlight">Magic Round Brisbane, May 2027</span> — 56 weeks total.'},
+    {icon:"🚫", title:"No Side Bets", text:'Pool bets only. <span class="rule-highlight">Personal bets are your own business</span> and don\'t affect the leaderboard or trip kitty.'}
   ];
-  document.getElementById("tab-rules").innerHTML=`
-    <div class="rules-header">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:#E8751A;letter-spacing:2px">📜 THE RULES</div>
-      <div style="font-size:12px;color:#6B8CA8;margin-top:4px">Magic Round Brisbane 2027 · NRL Season 2026</div>
-      <div style="font-size:11px;color:#F5A623;margin-top:6px;font-style:italic">"What happens on the punting table, stays on the leaderboard."</div>
-    </div>
-    ${rules.map((r,i)=>`
-      <div class="rule-card">
-        <div style="display:flex;align-items:flex-start;gap:10px">
-          <span class="rule-num">${i+1}</span>
-          <div style="flex:1">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15px;color:#F5A623;letter-spacing:0.5px;margin-bottom:4px">${r.icon} ${r.title}</div>
-            <div class="rule-text">${r.text}</div>
-          </div>
-        </div>
-      </div>`).join("")}
-    <div style="background:#132233;border-radius:12px;padding:14px;margin-top:4px;text-align:center;border:1px solid #1A2E42">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;color:#E8751A;letter-spacing:1px">🏉 BRISBANE OR BUST 🍺</div>
-      <div style="font-size:11px;color:#6B8CA8;margin-top:4px">Matt · Hamish · Sean · Jamie · Magic Round 2027</div>
-    </div>`;
+
+  var html = '<div class="rules-header"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:22px;color:#E8751A;letter-spacing:2px">📜 THE RULES</div>';
+  html += '<div style="font-size:12px;color:#6B8CA8;margin-top:4px">Magic Round Brisbane 2027 · NRL Season 2026</div>';
+  html += '<div style="font-size:11px;color:#F5A623;margin-top:6px;font-style:italic">"What happens on the punting table, stays on the leaderboard."</div></div>';
+
+  rules.forEach(function(r, i) {
+    html += '<div class="rule-card"><div style="display:flex;align-items:flex-start;gap:10px">';
+    html += '<span class="rule-num">' + (i+1) + '</span>';
+    html += '<div style="flex:1"><div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:15px;color:#F5A623;letter-spacing:0.5px;margin-bottom:4px">' + r.icon + ' ' + r.title + '</div>';
+    html += '<div class="rule-text">' + r.text + '</div></div></div></div>';
+  });
+
+  html += '<div style="background:#132233;border-radius:12px;padding:14px;margin-top:4px;text-align:center;border:1px solid #1A2E42">';
+  html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:18px;color:#E8751A;letter-spacing:1px">🏉 BRISBANE OR BUST 🍺</div>';
+  html += '<div style="font-size:11px;color:#6B8CA8;margin-top:4px">Matt · Hamish · Sean · Jamie · Magic Round 2027</div></div>';
+
+  document.getElementById("tab-rules").innerHTML = html;
+}
+
+// ── HALL OF FAME ─────────────────────────────────────────────────
+function renderHOF() {
+  var best = getBiggestWin();
+  var allWins = [];
+  for (var wk = 1; wk <= WEEKS; wk++) {
+    if (!isComplete(wk)) continue;
+    var w = results[wk];
+    PUNTERS.forEach(function(name, pi) {
+      var val = w.returns[pi];
+      if (val === null || val === undefined || val === "") return;
+      allWins.push({profit: Number(val)-POOL, ret: Number(val), name: name, week: wk, date: DATES[wk-1], isBonus: false});
+    });
+    if (w.bonusPunter && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "") {
+      allWins.push({profit: Number(w.bonusReturn)-POOL, ret: Number(w.bonusReturn), name: w.bonusPunter, week: wk, date: DATES[wk-1], isBonus: true});
+    }
+  }
+  allWins.sort(function(a,b) { return b.profit - a.profit; });
+  var top5 = allWins.slice(0, 5);
+  var winCounts = {};
+  PUNTERS.forEach(function(p) {
+    winCounts[p] = allWins.filter(function(w) { return w.profit > 0 && w.name === p; }).length;
+  });
+
+  var html = '<div class="rules-header" style="margin-bottom:14px">';
+  html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:22px;color:#F5A623;letter-spacing:2px">🏆 HALL OF FAME</div>';
+  html += '<div style="font-size:12px;color:#6B8CA8;margin-top:4px">Best single week performances · Season 2026</div></div>';
+
+  if (!best) {
+    html += '<div style="background:#132233;border-radius:12px;padding:30px;text-align:center;color:#6B8CA8;font-size:14px">No results yet — someone make history! 🏉</div>';
+  } else {
+    html += '<div class="hof-box" style="margin-bottom:14px">';
+    html += '<div style="font-size:10px;color:#6B8CA8;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">👑 ALL TIME BEST</div>';
+    html += '<div style="display:flex;align-items:flex-end;justify-content:space-between">';
+    html += '<div><div style="font-size:10px;color:#6B8CA8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px">profit</div>';
+    html += '<div class="hof-win">' + fmt$(best.profit, true) + '</div>';
+    html += '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">';
+    html += '<span style="background:#2A1800;color:#F5A623;font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:15px;padding:4px 12px;border-radius:20px">' + best.name + '</span>';
+    html += '<span style="background:#132233;color:#6B8CA8;font-size:11px;padding:4px 10px;border-radius:20px">Week ' + best.week + ' · ' + best.date + '</span>';
+    if (best.isBonus) html += '<span style="background:#1C1A00;color:#F5A623;font-size:10px;font-weight:700;padding:4px 8px;border-radius:20px;border:1px solid #F5A623">⚡ BONUS BET</span>';
+    html += '</div></div>';
+    html += '<div style="text-align:right"><div style="font-size:10px;color:#6B8CA8;margin-bottom:2px">returned</div>';
+    html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:26px;color:#fff">' + fmt$(best.ret) + '</div>';
+    html += '<div style="font-size:10px;color:#6B8CA8">from $200 pool</div></div></div></div>';
+
+    html += '<div class="section-title">Top 5 Weeks</div>';
+    html += '<div class="table-wrap" style="margin-bottom:14px">';
+    html += '<div class="table-head" style="grid-template-columns:28px 1fr 52px 70px 70px">';
+    html += '<div class="table-head-cell">#</div><div class="table-head-cell" style="text-align:left">PUNTER</div><div class="table-head-cell">WK</div><div class="table-head-cell">RETURN</div><div class="table-head-cell">PROFIT</div>';
+    html += '</div>';
+    top5.forEach(function(w, i) {
+      html += '<div class="table-row" style="grid-template-columns:28px 1fr 52px 70px 70px;' + (i===0?"background:#1C1400":"") + '">';
+      html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:15px;text-align:center;color:' + (i===0?"#F5A623":"#6B8CA8") + '">' + (i+1) + '</div>';
+      html += '<div style="font-size:13px;font-weight:600">' + w.name + (w.isBonus ? " ⚡" : "") + '</div>';
+      html += '<div style="font-size:11px;text-align:center;color:#6B8CA8">' + w.week + '</div>';
+      html += '<div style="font-size:12px;text-align:center">' + fmt$(w.ret) + '</div>';
+      html += '<div style="font-size:13px;font-weight:700;text-align:center" class="' + (w.profit>=0?"profit":"loss") + '">' + fmt$(w.profit, true) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+
+    html += '<div class="section-title">Wins by Punter</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">';
+    PUNTERS.forEach(function(p) {
+      html += '<div style="background:#132233;border-radius:10px;padding:12px;border:1px solid #1A2E42;text-align:center">';
+      html += '<div style="font-weight:700;font-size:15px;margin-bottom:4px">' + p + '</div>';
+      html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:28px;color:#2ECC71">' + winCounts[p] + '</div>';
+      html += '<div style="font-size:10px;color:#6B8CA8;text-transform:uppercase;letter-spacing:1px">profitable weeks</div></div>';
+    });
+    html += '</div>';
+  }
+
+  document.getElementById("tab-hof").innerHTML = html;
+}
+
+// ── GRAPH ────────────────────────────────────────────────────────
+function renderGraph() {
+  var history = getKittyHistory();
+  var totalBanked = getTotalBanked();
+  var wp = getWeeksPlayed();
+  var projected = wp > 0 ? Math.round((totalBanked / wp) * WEEKS) : 11200;
+  var avg = wp > 0 ? Math.round(totalBanked / wp) : 0;
+
+  var html = '<div class="rules-header" style="margin-bottom:14px">';
+  html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:22px;color:#2ECC71;letter-spacing:2px">🎒 TRIP KITTY GROWTH</div>';
+  html += '<div style="font-size:12px;color:#6B8CA8;margin-top:4px">Watch that kitty grow week by week</div></div>';
+
+  html += '<div class="stat-grid" style="margin-bottom:14px">';
+  html += '<div class="stat-card"><div class="stat-label">TOTAL BANKED</div><div class="stat-value profit">$' + Math.round(totalBanked).toLocaleString() + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">PROJECTED FINAL</div><div class="stat-value amber">$' + projected.toLocaleString() + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">ABOVE MINIMUM</div><div class="stat-value profit">+$' + Math.round(Math.max(0, totalBanked - wp*200)).toLocaleString() + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">AVG PER WEEK</div><div class="stat-value amber">' + (wp > 0 ? "$" + avg.toLocaleString() : "—") + '</div></div>';
+  html += '</div>';
+
+  if (history.length === 0) {
+    html += '<div style="background:#132233;border-radius:12px;padding:40px;text-align:center;color:#6B8CA8;font-size:14px">No results yet — the kitty starts growing when results are entered!</div>';
+  } else {
+    html += '<div class="chart-box"><canvas id="kitty-chart" height="200"></canvas>';
+    html += '<div style="display:flex;gap:16px;margin-top:10px;justify-content:center">';
+    html += '<div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:#2ECC71;border-radius:2px"></div><span style="font-size:11px;color:#6B8CA8">Actual kitty</span></div>';
+    html += '<div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:#E8751A;border-radius:2px;opacity:0.5"></div><span style="font-size:11px;color:#6B8CA8">Guaranteed min</span></div>';
+    html += '</div></div>';
+
+    html += '<div class="divider"></div><div class="section-title">Week by Week</div>';
+    html += '<div class="table-wrap"><div class="table-head" style="grid-template-columns:32px 55px 1fr 80px 80px">';
+    html += '<div class="table-head-cell">WK</div><div class="table-head-cell">DATE</div><div class="table-head-cell" style="text-align:left">PUNTER</div><div class="table-head-cell">BANKED</div><div class="table-head-cell">TOTAL</div>';
+    html += '</div>';
+    history.forEach(function(h) {
+      var wk = h.week;
+      var banked = calcBanked(wk);
+      var extra = banked - 200;
+      html += '<div class="table-row" style="grid-template-columns:32px 55px 1fr 80px 80px">';
+      html += '<div class="wk-badge">' + wk + '</div>';
+      html += '<div style="font-size:10px;color:#D9E8F5;text-align:center">' + DATES[wk-1] + '</div>';
+      html += '<div style="font-size:12px;font-weight:600;color:#F5A623">' + ROTATION[wk-1] + (results[wk] && results[wk].bonusPunter ? " +" + results[wk].bonusPunter : "") + '</div>';
+      html += '<div style="font-size:12px;text-align:center;color:#2ECC71">$' + Math.round(banked).toLocaleString() + (extra > 0 ? ' <span style="font-size:9px">(+' + Math.round(extra) + ')</span>' : '') + '</div>';
+      html += '<div style="font-size:13px;font-weight:700;text-align:center;color:#F5A623">$' + h.amount.toLocaleString() + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  document.getElementById("tab-graph").innerHTML = html;
+
+  if (history.length > 0) {
+    setTimeout(function() {
+      var canvas = document.getElementById("kitty-chart");
+      if (!canvas) return;
+      if (kittyChart) { kittyChart.destroy(); kittyChart = null; }
+      var labels = history.map(function(h) { return "Wk " + h.week; });
+      var actuals = history.map(function(h) { return h.amount; });
+      var minLine = history.map(function(h) { return h.week * 200; });
+      kittyChart = new Chart(canvas, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {label:"Actual kitty", data:actuals, borderColor:"#2ECC71", backgroundColor:"rgba(46,204,113,0.08)", borderWidth:2.5, pointBackgroundColor:"#2ECC71", pointRadius:history.length > 20 ? 0 : 3, tension:0.3, fill:true},
+            {label:"Guaranteed min", data:minLine, borderColor:"rgba(232,117,26,0.4)", borderWidth:1.5, borderDash:[5,4], pointRadius:0, tension:0, fill:false}
+          ]
+        },
+        options: {
+          responsive:true,
+          animation:{duration:600},
+          plugins:{
+            legend:{display:false},
+            tooltip:{backgroundColor:"#132233", borderColor:"#E8751A", borderWidth:1, titleColor:"#F5A623", bodyColor:"#D9E8F5",
+              callbacks:{label:function(ctx) { return ctx.datasetIndex===0?" Kitty: $"+ctx.parsed.y.toLocaleString():" Min: $"+ctx.parsed.y.toLocaleString(); }}}
+          },
+          scales:{
+            x:{grid:{color:"rgba(255,255,255,0.04)"}, ticks:{color:"#6B8CA8", font:{size:9}, maxTicksLimit:10}},
+            y:{grid:{color:"rgba(255,255,255,0.04)"}, ticks:{color:"#6B8CA8", font:{size:9}, callback:function(v) { return "$"+v.toLocaleString(); }}, beginAtZero:true}
+          }
+        }
+      });
+    }, 100);
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
-async function initApp(){
-  await loadFromDB();
-  const completed=Array.from({length:WEEKS},(_,i)=>i+1).filter(wk=>isComplete(wk));
-  currentEntryWeek=completed.length>0?Math.min(completed[completed.length-1]+1,WEEKS):1;
-  currentWAWeek=completed.length>0?completed[completed.length-1]:1;
-  renderDashboard();
+window.addEventListener("load", function() {
+  var completed = [];
+  loadFromDB();
   subscribeToChanges();
-}
+});
 </script>
 
 </body>
