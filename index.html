@@ -180,7 +180,12 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 <script>
 var SUPABASE_URL = "https://ndsbuovvckxglbgptymc.supabase.co";
 var SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kc2J1b3Z2Y2t4Z2xiZ3B0eW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjM4MzMsImV4cCI6MjA5MjUzOTgzM30.dQ6TW7ViK6tFIk7duSf0SENC2BvGzkGaDwgtGnzuzbY";
-var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+var db;
+try {
+  db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch(e) {
+  console.error("Supabase init failed:", e);
+}
 
 var PUNTERS  = ["Matt","Hamish","Sean","Jamie"];
 var PCOLS    = ["matt","hamish","sean","jamie"];
@@ -217,6 +222,7 @@ function setSyncStatus(s) {
 }
 
 function loadFromDB() {
+  if (!db) { setSyncStatus("offline"); showToast("Connection error"); renderActiveTab(); return; }
   setSyncStatus("syncing");
   db.from("results").select("*").then(function(res) {
     if (res.error) {
@@ -245,6 +251,7 @@ function loadFromDB() {
 }
 
 function saveWeekToDB(week) {
+  if (!db) { showToast("No connection — try refreshing"); return; }
   setSyncStatus("syncing");
   var w = results[week] || {returns:[null,null,null,null], bonusPunter:null, bonusReturn:null};
   var row = {
@@ -294,16 +301,20 @@ function fmtPct(n) {
 function isComplete(wk) {
   var w = results[wk];
   if (!w) return false;
-  for (var i = 0; i < PUNTERS.length; i++) {
-    if (w.returns[i] === null || w.returns[i] === undefined || w.returns[i] === "") return false;
-  }
-  return true;
+  // Week is complete when the punter-in-charge has their return entered
+  var pic = ROTATION[wk-1];
+  var pi = PUNTERS.indexOf(pic);
+  var val = w.returns[pi];
+  return val !== null && val !== undefined && val !== "";
 }
 
 function calcBanked(wk) {
   if (!isComplete(wk)) return 0;
   var w = results[wk];
-  var ret = w.returns.reduce(function(a, b) { return a + Number(b); }, 0);
+  // Only the punter-in-charge's return counts
+  var pic = ROTATION[wk-1];
+  var pi = PUNTERS.indexOf(pic);
+  var ret = Number(w.returns[pi]) || 0;
   var banked = AUTO_BANK + ret;
   if (ret >= BONUS_TRIGGER) banked = AUTO_BANK + ret - BONUS_KEEP;
   if (w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "") {
@@ -336,8 +347,11 @@ function calcStats() {
     Object.keys(results).forEach(function(wk) {
       if (!isComplete(Number(wk))) return;
       var w = results[wk];
-      if (w.returns[pi] !== null && w.returns[pi] !== undefined && w.returns[pi] !== "")
+      // Only count if this punter was the punter-in-charge that week
+      var pic = ROTATION[Number(wk)-1];
+      if (pic === name && w.returns[pi] !== null && w.returns[pi] !== undefined && w.returns[pi] !== "")
         weekReturns.push({ret: Number(w.returns[pi]), staked: POOL});
+      // Or if they were the bonus punter
       if (w.bonusPunter === name && w.bonusReturn !== null && w.bonusReturn !== undefined && w.bonusReturn !== "")
         weekReturns.push({ret: Number(w.bonusReturn), staked: POOL});
     });
@@ -401,8 +415,10 @@ function getCurrentBonusPunter() {
   for (var i = 1; i <= WEEKS; i++) { if (isComplete(i)) lastWk = i; }
   if (!lastWk) return null;
   var w = results[lastWk];
-  var ret = w.returns.reduce(function(a,b) { return a+Number(b); }, 0);
-  if (ret >= BONUS_TRIGGER) return ROTATION[lastWk-1];
+  var pic = ROTATION[lastWk-1];
+  var pi = PUNTERS.indexOf(pic);
+  var ret = Number(w.returns[pi]) || 0;
+  if (ret >= BONUS_TRIGGER) return pic;
   if (w.bonusReturn !== null && Number(w.bonusReturn) >= BONUS_TRIGGER) return w.bonusPunter;
   return null;
 }
@@ -551,13 +567,17 @@ function renderEntry() {
   if (currentEntryWeek > 1) {
     var prev = results[currentEntryWeek - 1];
     if (prev && isComplete(currentEntryWeek - 1)) {
-      var prevRet = prev.returns.reduce(function(a,b) { return a+Number(b); }, 0);
-      if (prevRet >= BONUS_TRIGGER) expectedBonus = ROTATION[currentEntryWeek - 2];
+      var prevPic = ROTATION[currentEntryWeek - 2];
+      var prevPi = PUNTERS.indexOf(prevPic);
+      var prevRet = Number(prev.returns[prevPi]) || 0;
+      if (prevRet >= BONUS_TRIGGER) expectedBonus = prevPic;
       else if (prev.bonusReturn !== null && Number(prev.bonusReturn) >= BONUS_TRIGGER) expectedBonus = prev.bonusPunter;
     }
   }
   var complete = isComplete(currentEntryWeek);
-  var totalReturn = complete ? weekData.returns.reduce(function(a,b) { return a+Number(b); }, 0) : null;
+  var pic = ROTATION[currentEntryWeek-1];
+  var picIdx = PUNTERS.indexOf(pic);
+  var totalReturn = complete ? (Number(weekData.returns[picIdx]) || 0) : null;
   var hasBonus = expectedBonus !== null;
   var bonusRet = weekData.bonusReturn;
   var bonusComplete = !hasBonus || (bonusRet !== null && bonusRet !== undefined && bonusRet !== "");
@@ -760,7 +780,9 @@ function buildMessage() {
   var stats = rankStats(calcStats()).sort(function(a,b) { return a.rank - b.rank; });
   var w = results[currentWAWeek];
   var complete = isComplete(currentWAWeek);
-  var totalReturn = complete ? w.returns.reduce(function(a,b) { return a+Number(b); }, 0) : null;
+  var waPic = ROTATION[currentWAWeek-1];
+  var waPicIdx = PUNTERS.indexOf(waPic);
+  var totalReturn = complete ? (Number(w.returns[waPicIdx]) || 0) : null;
   var banked = complete ? calcBanked(currentWAWeek) : null;
   var totalBanked = getTotalBanked();
   var lines = [
@@ -1029,7 +1051,6 @@ function renderGraph() {
 
 // ── INIT ─────────────────────────────────────────────────────────
 window.addEventListener("load", function() {
-  var completed = [];
   loadFromDB();
   subscribeToChanges();
 });
