@@ -153,7 +153,7 @@ input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
     <div class="nrl-badge">NRL PREMIERSHIP 2026</div>
     <div class="header-title">🏉 PUNTERS CLUB</div>
     <div class="header-sub">MAGIC ROUND · BRISBANE 2027</div>
-    <div class="header-detail">APR 2026 → MAY 2027 · 56 WEEKS · $200 POOL/WK <span class="sync-dot offline" id="sync-dot"></span></div>
+    <div class="header-detail">APR 2026 → MAY 2027 · 56 WEEKS · $120 POOL/WK <span class="sync-dot offline" id="sync-dot"></span></div>
   </div>
 
   <div class="nav">
@@ -185,10 +185,10 @@ var db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 var PUNTERS  = ["Matt","Hamish","Sean","Jamie"];
 var PCOLS    = ["matt","hamish","sean","jamie"];
 var WEEKS    = 56;
-var POOL     = 200;
-var AUTO_BANK = 200;
-var BONUS_TRIGGER = 600;
-var BONUS_KEEP    = 200;
+var POOL     = 120;
+var AUTO_BANK = 120;
+var BONUS_TRIGGER = 360;
+var BONUS_KEEP    = 120;
 var BRISBANE_DATE = new Date("2027-05-21");
 var START    = new Date("2026-04-06");
 var MEDALS   = ["🥇","🥈","🥉","☠️"];
@@ -447,7 +447,7 @@ function renderDashboard() {
   for (var i = 1; i <= WEEKS; i++) { if (isComplete(i)) completed.push(i); }
   var lastWk = completed.length > 0 ? completed[completed.length-1] : null;
   var lastBanked = lastWk ? calcBanked(lastWk) : null;
-  var pct = Math.min(100, (totalBanked / 11200) * 100);
+  var pct = Math.min(100, (totalBanked / 6720) * 100);
 
   var html = "";
 
@@ -528,17 +528,17 @@ function renderDashboard() {
   html += '<div class="section-title">🎒 Trip Kitty</div>';
   html += '<div style="background:#1A2E42;border-radius:10px;padding:14px">';
   html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="muted" style="font-size:12px">Total banked</span><span class="profit" style="font-weight:700;font-size:16px">$' + Math.round(totalBanked).toLocaleString() + '</span></div>';
-  html += '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="muted" style="font-size:11px">Guaranteed min (' + wp + ' × $200)</span><span class="amber" style="font-size:12px;font-weight:600">$' + (wp*200).toLocaleString() + '</span></div>';
+  html += '<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="muted" style="font-size:11px">Guaranteed min (' + wp + ' × $120)</span><span class="amber" style="font-size:12px;font-weight:600">$' + (wp*120).toLocaleString() + '</span></div>';
   html += '<div class="progress-wrap"><div class="progress-bar" style="width:' + pct + '%"></div></div>';
-  html += '<div style="display:flex;justify-content:space-between;margin-top:4px"><span class="muted" style="font-size:11px">' + wp + ' of 56 weeks</span><span class="amber" style="font-weight:700;font-size:12px">$11,200 min target</span></div>';
+  html += '<div style="display:flex;justify-content:space-between;margin-top:4px"><span class="muted" style="font-size:11px">' + wp + ' of 56 weeks</span><span class="amber" style="font-weight:700;font-size:12px">$6,720 min target</span></div>';
   html += '</div>';
 
   // Bonus rule
   html += '<div class="divider"></div>';
   html += '<div class="bonus-box">';
   html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:800;font-size:16px;color:#F5A623;letter-spacing:1px;margin-bottom:6px">⚡ BONUS RULE</div>';
-  html += '<div style="color:#D9E8F5;font-size:13px;line-height:1.6">Return <strong style="color:#F5A623">$600+</strong> → keep <strong style="color:#E8751A">$200</strong> to bet again next week</div>';
-  html += '<div style="color:#6B8CA8;font-size:11px;margin-top:4px;font-style:italic">Rotation stays the same. Keep going as long as you keep hitting $600+!</div>';
+  html += '<div style="color:#D9E8F5;font-size:13px;line-height:1.6">Return <strong style="color:#F5A623">$360+</strong> → keep <strong style="color:#E8751A">$120</strong> to bet again next week</div>';
+  html += '<div style="color:#6B8CA8;font-size:11px;margin-top:4px;font-style:italic">Rotation stays the same. Keep going as long as you keep hitting $360+!</div>';
   html += '</div>';
 
   document.getElementById("tab-dashboard").innerHTML = html;
@@ -581,7 +581,7 @@ function renderEntry() {
   html += '</div></div>';
 
   // Input grid
-  html += '<div class="section-title">💰 Returns ($200 bet → how much returned?)</div>';
+  html += '<div class="section-title">💰 Returns ($120 bet → how much returned?)</div>';
   html += '<div class="input-grid">';
   PUNTERS.forEach(function(name, pi) {
     var val = weekData.returns[pi];
@@ -601,7 +601,7 @@ function renderEntry() {
   if (hasBonus) {
     var bHasVal = bonusRet !== null && bonusRet !== undefined && bonusRet !== "";
     var bIsP = bHasVal && Number(bonusRet) > POOL;
-    html += '<div class="section-title">⚡ Bonus Return (' + expectedBonus + ' — $200 bet)</div>';
+    html += '<div class="section-title">⚡ Bonus Return (' + expectedBonus + ' — $120 bet)</div>';
     html += '<div style="margin-bottom:14px"><div class="input-card bonus">';
     html += '<div class="input-name bonus">⚡ ' + expectedBonus + ' BONUS BET</div>';
     html += '<div class="input-wrap"><span class="input-dollar">$</span>';
@@ -617,7 +617,7 @@ function renderEntry() {
     html += '<div style="font-size:11px;font-weight:600;letter-spacing:1px;color:#6B8CA8;margin-bottom:4px">WEEK ' + currentEntryWeek + ' — TRIP KITTY</div>';
     html += '<div class="result-big profit">$' + Math.round(bankedThisWeek).toLocaleString() + '</div>';
     html += '<div style="font-size:12px;margin-top:4px;color:#6B8CA8">banked this week</div>';
-    html += '<div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap"><span class="tag tag-muted">$200 guaranteed</span>';
+    html += '<div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap"><span class="tag tag-muted">$120 guaranteed</span>';
     if (bankedThisWeek > AUTO_BANK) html += '<span class="tag tag-green">+$' + Math.round(bankedThisWeek - AUTO_BANK).toLocaleString() + ' winnings</span>';
     html += '</div>';
     if (totalReturn >= BONUS_TRIGGER) {
@@ -742,14 +742,14 @@ function renderLeaderboard() {
   html += '<div style="background:#1A2E42;border-radius:12px;padding:14px;border:1px solid #2ECC7144">';
   var rows = [
     ["Total banked", "$" + Math.round(totalBanked).toLocaleString(), "#2ECC71"],
-    ["Guaranteed min", "$" + (wp*200).toLocaleString(), "#F5A623"],
-    ["Winnings banked", "$" + Math.round(Math.max(0, totalBanked - wp*200)).toLocaleString(), "#2ECC71"],
-    ["Still to come", "$" + ((WEEKS-wp)*200).toLocaleString() + " min", "#6B8CA8"]
+    ["Guaranteed min", "$" + (wp*120).toLocaleString(), "#F5A623"],
+    ["Winnings banked", "$" + Math.round(Math.max(0, totalBanked - wp*120)).toLocaleString(), "#2ECC71"],
+    ["Still to come", "$" + ((WEEKS-wp)*120).toLocaleString() + " min", "#6B8CA8"]
   ];
   rows.forEach(function(r, i) {
     html += '<div style="display:flex;justify-content:space-between;padding:7px 0;' + (i < rows.length-1 ? "border-bottom:1px solid #132233" : "") + '"><span style="color:#6B8CA8;font-size:12px">' + r[0] + '</span><span style="color:' + r[2] + ';font-weight:700;font-size:13px">' + r[1] + '</span></div>';
   });
-  html += '<div class="progress-wrap" style="margin-top:10px"><div class="progress-bar" style="width:' + Math.min(100, (totalBanked/11200)*100) + '%"></div></div>';
+  html += '<div class="progress-wrap" style="margin-top:10px"><div class="progress-bar" style="width:' + Math.min(100, (totalBanked/6720)*100) + '%"></div></div>';
   html += '</div>';
 
   document.getElementById("tab-leaderboard").innerHTML = html;
@@ -838,12 +838,12 @@ function copyMessage() {
 // ── RULES ────────────────────────────────────────────────────────
 function renderRules() {
   var rules = [
-    {icon:"💰", title:"Weekly Contributions", text:'Each punter contributes <span class="rule-highlight">$100 per week</span> — $400 total collected from the group each week.'},
-    {icon:"🎒", title:"Automatic Banking", text:'<span class="rule-highlight">$200 is automatically banked</span> into the trip kitty every week no matter what. The kitty grows by a minimum of $200 per week.'},
-    {icon:"🏉", title:"The Weekly Bet", text:'The remaining <span class="rule-highlight">$200 is given to the Punter-in-Charge</span> to place bets on that week\'s NRL action.'},
-    {icon:"💵", title:"Where Returns Go", text:'Whatever the punter returns goes <span class="rule-highlight">straight into the trip kitty</span> on top of the guaranteed $200. Every win makes Brisbane bigger!'},
-    {icon:"⚡", title:"The Bonus Rule", text:'If the Punter-in-Charge returns <span class="rule-highlight">$600 or more</span>, they keep <span class="rule-highlight">$200</span> to bet again the following week. The rest gets banked. They keep going as long as they keep hitting $600+!'},
-    {icon:"🔄", title:"Rotation Stays the Same", text:'The rotation <span class="rule-highlight">never changes</span>. On a bonus week both the regular rotation punter AND the bonus punter each bet <span class="rule-highlight">$200 separately</span> — two bets, two chances to win.'},
+    {icon:"💰", title:"Weekly Contributions", text:'Each punter contributes <span class="rule-highlight">$60 per week</span> — $240 total collected from the group each week.'},
+    {icon:"🎒", title:"Automatic Banking", text:'<span class="rule-highlight">$120 is automatically banked</span> into the trip kitty every week no matter what. The kitty grows by a minimum of $120 per week.'},
+    {icon:"🏉", title:"The Weekly Bet", text:'The remaining <span class="rule-highlight">$120 is given to the Punter-in-Charge</span> to place bets on that week\'s NRL action.'},
+    {icon:"💵", title:"Where Returns Go", text:'Whatever the punter returns goes <span class="rule-highlight">straight into the trip kitty</span> on top of the guaranteed $120. Every win makes Brisbane bigger!'},
+    {icon:"⚡", title:"The Bonus Rule", text:'If the Punter-in-Charge returns <span class="rule-highlight">$360 or more</span>, they keep <span class="rule-highlight">$120</span> to bet again the following week. The rest gets banked. They keep going as long as they keep hitting $360+!'},
+    {icon:"🔄", title:"Rotation Stays the Same", text:'The rotation <span class="rule-highlight">never changes</span>. On a bonus week both the regular rotation punter AND the bonus punter each bet <span class="rule-highlight">$120 separately</span> — two bets, two chances to win.'},
     {icon:"🏆", title:"The Leaderboard", text:'Each punter\'s profitability is tracked across the season. The <span class="rule-highlight">least profitable punter</span> at season end organises the entire Brisbane trip.'},
     {icon:"✈️", title:"The Trip — What\'s Included", text:'The organiser arranges: <span class="rule-highlight">return flights</span>, <span class="rule-highlight">accommodation</span> (3 nights), <span class="rule-highlight">NRL Magic Round tickets</span>, <span class="rule-highlight">group dinners</span>, all <span class="rule-highlight">Ubers and transport</span>, plus any extras.'},
     {icon:"🤝", title:"Group Dividend", text:'If there\'s a <span class="rule-highlight">substantial win</span> and all four punters agree, a dividend can be taken from the trip kitty. <span class="rule-highlight">Unanimous agreement required.</span>'},
@@ -911,7 +911,7 @@ function renderHOF() {
     html += '</div></div>';
     html += '<div style="text-align:right"><div style="font-size:10px;color:#6B8CA8;margin-bottom:2px">returned</div>';
     html += '<div style="font-family:\'Barlow Condensed\',sans-serif;font-weight:900;font-size:26px;color:#fff">' + fmt$(best.ret) + '</div>';
-    html += '<div style="font-size:10px;color:#6B8CA8">from $200 pool</div></div></div></div>';
+    html += '<div style="font-size:10px;color:#6B8CA8">from $120 pool</div></div></div></div>';
 
     html += '<div class="section-title">Top 5 Weeks</div>';
     html += '<div class="table-wrap" style="margin-bottom:14px">';
@@ -958,7 +958,7 @@ function renderGraph() {
   html += '<div class="stat-grid" style="margin-bottom:14px">';
   html += '<div class="stat-card"><div class="stat-label">TOTAL BANKED</div><div class="stat-value profit">$' + Math.round(totalBanked).toLocaleString() + '</div></div>';
   html += '<div class="stat-card"><div class="stat-label">PROJECTED FINAL</div><div class="stat-value amber">$' + projected.toLocaleString() + '</div></div>';
-  html += '<div class="stat-card"><div class="stat-label">ABOVE MINIMUM</div><div class="stat-value profit">+$' + Math.round(Math.max(0, totalBanked - wp*200)).toLocaleString() + '</div></div>';
+  html += '<div class="stat-card"><div class="stat-label">ABOVE MINIMUM</div><div class="stat-value profit">+$' + Math.round(Math.max(0, totalBanked - wp*120)).toLocaleString() + '</div></div>';
   html += '<div class="stat-card"><div class="stat-label">AVG PER WEEK</div><div class="stat-value amber">' + (wp > 0 ? "$" + avg.toLocaleString() : "—") + '</div></div>';
   html += '</div>';
 
